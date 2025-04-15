@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.novalearn.controllers.AccueilController">
+
+    <top>
+        <ToolBar>
+            <Button text="Cours / Exercice" onAction="#showCoursExercice"/>
+            <Button text="Réclamation" onAction="#showReclamation"/>
+            <Button text="Quizzes" onAction="#showQuizzes"/>
+        </ToolBar>
+    </top>
+
+    <center>
+        <!-- This pane will host each module -->
+        <StackPane fx:id="contentPane"/>
+    </center>
+</BorderPane>
