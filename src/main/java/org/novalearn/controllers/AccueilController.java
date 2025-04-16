@@ -10,28 +10,35 @@ public class AccueilController {
 
     @FXML
     public void initialize() {
-        // load default module
-        showCoursExercice();
+        // On startup, show the Accueil body (welcome panel)
+        showAccueilBody();
+    }
+
+    @FXML
+    private void showAccueilBody() {
+        loadModule("acceauil-views/accueil_body.fxml");
     }
 
     @FXML
     private void showCoursExercice() {
-        loadModule("cours_exercice.fxml");
+        loadModule("counrs_exercice-views/cours_exercice.fxml");
     }
 
     @FXML
     private void showReclamation() {
-        loadModule("reclamation.fxml");
+        loadModule("reclamation-views/reclamation.fxml");
     }
 
     @FXML
     private void showQuizzes() {
-        loadModule("quizzes.fxml");
+        loadModule("quizzes-views/quizzes.fxml");
     }
 
-    private void loadModule(String fxmlName) {
+    private void loadModule(String relativePath) {
         try {
-            Pane module = FXMLLoader.load(getClass().getResource("/org/novalearn/" + fxmlName));
+            Pane module = FXMLLoader.load(
+                    getClass().getResource("/org/novalearn/" + relativePath)
+            );
             contentPane.getChildren().setAll(module);
         } catch (Exception e) {
             e.printStackTrace();
