@@ -1,9 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
 
-<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.novalearn.controllers.QuizzesController">
-    <Label text="Module Quizzes" style="-fx-font-size: 16px;"/>
-    <!-- add your UI here -->
-</VBox>
+<?import javafx.scene.shape.Rectangle?>
+<StackPane  fx:id="rootPane"
+            xmlns="http://javafx.com/javafx/17"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="org.novalearn.controllers.Quiz.QuizzesController"
+           prefWidth="600" prefHeight="600"
+           stylesheets="@/styles/quiz.css">
+
+    <VBox spacing="10" alignment="TOP_CENTER">
+        <Label text="Module Quizzes" style="-fx-font-size:20px; -fx-font-weight:bold;"/>
+        <HBox spacing="15" alignment="CENTER">
+            <Button text="Math"    fx:id="btnMath"    onAction="#onMath"    prefWidth="100"/>
+            <Button text="History" fx:id="btnHistory" onAction="#onHistory" prefWidth="100"/>
+            <Button text="Science" fx:id="btnScience" onAction="#onScience" prefWidth="100"/>
+            <Button text="Geo"     fx:id="btnGeo"     onAction="#onGeo"     prefWidth="100"/>
+        </HBox>
+
+        <HBox fx:id="difficultyBox" spacing="15" alignment="CENTER" visible="false"/>
+
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+            <content>
+                <VBox fx:id="questionsContainer" spacing="20">
+                    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+                </VBox>
+            </content>
+        </ScrollPane>
+
+        <Button fx:id="btnSubmit"
+                text="Submit Answers"
+                visible="false"
+                prefWidth="200"
+                style="-fx-font-size:14px; -fx-background-color:#4CAF50; -fx-text-fill:white;"/>
+    </VBox>
+
+    <Rectangle fill="#00000080" visible="false" fx:id="overlay"/>
+    <ProgressIndicator fx:id="loader" visible="false" maxWidth="100" maxHeight="100"/>
+
+</StackPane>

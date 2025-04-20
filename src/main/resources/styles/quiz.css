@@ -1,0 +1,73 @@
+/* quiz.css */
+
+/* Root styling */
+.root {
+    -fx-font-family: "Arial", sans-serif;
+    -fx-background-color: #f4f4f4;
+}
+/* darken the background */
+#overlay {
+    -fx-fill: rgba(0, 0, 0, 0.75);
+}
+
+/* style the “You previously scored…” label */
+.score-label {
+    -fx-background-color: rgba(0, 0, 0, 0.6);
+    -fx-background-radius: 10;
+    -fx-padding: 20 40 20 40;
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+/* Header label */
+.label {
+    -fx-text-fill: #333333;
+}
+
+/* Subject and difficulty buttons */
+HBox > .button {
+    -fx-background-radius: 4;
+    -fx-padding: 6 12;
+    -fx-font-size: 14px;
+}
+
+#difficultyBox .button {
+    -fx-background-color: #607D8B;
+    -fx-text-fill: white;
+}
+#difficultyBox .button:hover {
+    -fx-background-color: #455A64;
+}
+
+/* Question pane styling */
+#questionsContainer > VBox {
+    -fx-border-color: #CCCCCC;
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 4;
+    -fx-padding: 10;
+}
+
+/* Question text wrap */
+#questionsContainer Label {
+    -fx-wrap-text: true;
+    -fx-font-size: 16px;
+    -fx-padding: 0 0 8 0;
+}
+
+/* Radio buttons spacing */
+.radio-button {
+    -fx-padding: 4 0;
+    -fx-font-size: 14px;
+}
+
+/* Submit button */
+#btnSubmit {
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+#btnSubmit:hover {
+    -fx-background-color: #45A049;
+}

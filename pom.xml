@@ -13,7 +13,9 @@
         <maven.compiler.target>24</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
+        <!-- Existing dependencies -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -24,8 +26,6 @@
             <artifactId>javafx-fxml</artifactId>
             <version>23.0.1</version>
         </dependency>
-
-
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -37,9 +37,35 @@
             <version>5.2.2</version>
         </dependency>
 
+        <!-- JPA / Hibernate dependencies -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.6.15.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>2.2.3</version>
+        </dependency>
+        <!-- JavaFX Media for audio playback -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>23.0.1</version>
+        </dependency>
+
+        <!-- Jackson for JSON parsing -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.15.1</version>
+        </dependency>
     </dependencies>
+
     <build>
         <plugins>
+            <!-- JavaFX Maven plugin -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
@@ -48,6 +74,33 @@
                     <mainClass>org.novalearn.MainApp</mainClass>
                 </configuration>
             </plugin>
+
+            <!-- Hibernate reverse-engineering plugin (optional) -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>hibernate3-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <components>
+                        <component>
+                            <name>hbm2java</name>
+                            <outputDirectory>${project.build.directory}/generated-sources/hibernate</outputDirectory>
+                        </component>
+                    </components>
+                    <componentProperties>
+                        <revengfile>src/main/resources/hibernate.reveng.xml</revengfile>
+                        <configurationfile>src/main/resources/hibernate.cfg.xml</configurationfile>
+                    </componentProperties>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>hbm2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
+
