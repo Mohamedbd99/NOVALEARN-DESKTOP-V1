@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.novalearn.controllers.CoursController">
+   <children>
+      <BorderPane prefHeight="850.0" prefWidth="1350.0" styleClass="gradient-background" stylesheets="@../alertStyles.css">
+         <bottom>
+            <VBox prefHeight="744.0" prefWidth="1350.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Pane prefHeight="47.0" prefWidth="1350.0">
+                     <children>
+                        <Label layoutX="506.0" layoutY="-32.0" prefHeight="107.0" prefWidth="469.0" text="voir  Les cours" textFill="#480561">
+                           <font>
+                              <Font name="System Bold Italic" size="46.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <ScrollPane fitToWidth="true">
+                     <content>
+                        <FlowPane fx:id="coursFlowPane" alignment="CENTER" hgap="20.0" prefHeight="423.0" prefWidth="1310.0" vgap="20.0" />
+
+                     </content>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </ScrollPane>
+               </children></VBox>
+         </bottom>
+         <top>
+            <Pane prefHeight="102.0" prefWidth="1350.0" stylesheets="@../alertStyles.css" BorderPane.alignment="CENTER">
+               <styleClass>
+                  <String fx:value="gradient-background" />
+                  <String fx:value="line-color" />
+               </styleClass>
+               <children>
+                  <ImageView fitHeight="110.0" fitWidth="306.0" layoutX="25.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../logooo.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </top></BorderPane>
+   </children>
+</AnchorPane>

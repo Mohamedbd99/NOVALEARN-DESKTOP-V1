@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.novalearn.controllers.CoursDetails">
+<children>
+    <BorderPane prefHeight="850.0" prefWidth="1350.0" styleClass="gradient-background" stylesheets="@../alertStyles.css">
+        <bottom>
+            <VBox prefHeight="744.0" prefWidth="1350.0" BorderPane.alignment="CENTER">
+                <children>
+                    <Pane prefHeight="45.0" prefWidth="850.0" />
+                  <HBox prefHeight="428.0" prefWidth="850.0">
+                     <children>
+                        <VBox fx:id="rootVBox" prefHeight="582.0" prefWidth="478.0">
+                           <children>
+                              <StackPane fx:id="videoPane" prefHeight="431.0" prefWidth="472.0">
+                                  <MediaView fx:id="mediaView" preserveRatio="true" StackPane.alignment="CENTER" />
+                                  <Button fx:id="playButton" style="-fx-font-size:35px; -fx-background-color: rgba(255,255,255,0.7);" text="▶" StackPane.alignment="CENTER" />
+                              </StackPane>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="688.0" prefWidth="385.0">
+                           <children>
+                              <Pane prefHeight="75.0" prefWidth="385.0">
+                                 <children>
+                                        <Label fx:id="titre"  prefHeight="41.0" prefWidth="469.0" textFill="#ecd5ff">
+                                            <font>
+                                                <Font name="System Bold Italic" size="20.0" />
+                                            </font>
+                                        </Label>
+                                 </children>
+                              </Pane>
+                               <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #8aa7e1;" />
+                               <Label fx:id="desc" maxWidth="260" style="-fx-font-size: 14px; -fx-text-fill: #c1c9d6;" wrapText="true" />
+                                <Label fx:id="contenu" prefHeight="17.0" prefWidth="79.0" style="-fx-font-size: 14px; -fx-text-fill: #c1c9d6;" wrapText="true" />
+                                <HBox fx:id="stars" spacing="2" />
+                                <Label fx:id="duration" style="-fx-font-size: 12px; -fx-text-fill: #7c2828;" />
+                              <Pane prefHeight="24.0" prefWidth="385.0" />
+                              <Button fx:id="exercice" mnemonicParsing="false" text="voir exercice" />
+                              <Pane prefHeight="30.0" prefWidth="385.0" />
+                               <VBox fx:id="exercicesBox" prefHeight="66.0" prefWidth="385.0" spacing="5" visible="false">
+                                   <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Liste des exercices :" />
+                               </VBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                </children></VBox>
+        </bottom>
+        <top>
+            <Pane prefHeight="95.0" prefWidth="850.0" stylesheets="@../alertStyles.css" BorderPane.alignment="CENTER">
+                <styleClass>
+                    <String fx:value="gradient-background" />
+                    <String fx:value="line-color" />
+                </styleClass>
+                <children>
+                    <ImageView fitHeight="110.0" fitWidth="306.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../logooo.png" />
+                        </image>
+                    </ImageView>
+                </children>
+            </Pane>
+        </top></BorderPane>
+
+</children>
+</AnchorPane>

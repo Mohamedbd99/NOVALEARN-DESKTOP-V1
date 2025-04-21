@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="700" prefWidth="1000" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.novalearn.controllers.CoursController">
+
+    <VBox spacing="10" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+          style="-fx-padding: 20px;">
+
+        <ScrollPane fitToWidth="true">
+            <FlowPane fx:id="coursFlowPane"
+                      hgap="20" vgap="20"
+                      prefWrapLength="900"
+                      style="-fx-padding: 10px;" />
+        </ScrollPane>
+    </VBox>
+</AnchorPane>
