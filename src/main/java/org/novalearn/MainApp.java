@@ -1,20 +1,35 @@
 package org.novalearn;
 
 import databaseConnection.DatabaseConnection;
+import io.github.cdimascio.dotenv.Dotenv;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import com.stripe.Stripe;           // ← add this
 
 import java.sql.Connection;
 
 public class MainApp extends Application {
     private static Stage primaryStage;
     private static Connection dbConnection;
+    private static final Dotenv dotenv = Dotenv.configure()
+            .ignoreIfMalformed()   // optional
+            .ignoreIfMissing()     // optional
+            .load();
 
     @Override
     public void init() throws Exception {
-        // Called before start(); open your DB connection here
+        // 1) Load your Stripe secret key from the environment
+        String stripeSecret = dotenv.get("STRIPE_SECRET_KEY");
+
+        if (stripeSecret == null) {
+            throw new IllegalStateException("Missing STRIPE_SECRET_KEY");
+        }
+        // 2) Initialize the Stripe SDK
+        Stripe.apiKey = stripeSecret;
+
+        // 3) Open your DB connection
         dbConnection = DatabaseConnection.getConnection();
         if (dbConnection == null) {
             throw new IllegalStateException("Cannot start app: DB connection failed");
