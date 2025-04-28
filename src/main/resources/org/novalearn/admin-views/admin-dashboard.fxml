@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.novalearn.controllers.admin.AdminDashboardController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Dashboard Administrateur" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Déconnexion" onAction="#onLogoutClicked"/>
+    </HBox>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <ComboBox fx:id="roleFilterComboBox" promptText="Filtrer par rôle"/>
+        <TextField fx:id="searchField" promptText="Rechercher..." HBox.hgrow="ALWAYS"/>
+        <Button text="Rechercher" onAction="#onSearchClicked"/>
+    </HBox>
+
+    <ListView fx:id="usersListView" VBox.vgrow="ALWAYS">
+        <placeholder>
+            <Label text="Aucun utilisateur trouvé"/>
+        </placeholder>
+    </ListView>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Ajouter un utilisateur" onAction="#onAddUserClicked"/>
+        <Button text="Exporter en CSV" onAction="#onExportClicked"/>
+    </HBox>
+</VBox>

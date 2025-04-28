@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
 
-<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.novalearn.controllers.LoginController">
-    <Label text="Bienvenue sur NovaLearn" style="-fx-font-size: 18px;"/>
-    <TextField fx:id="usernameField" promptText="Nom d'utilisateur" />
-    <PasswordField fx:id="passwordField" promptText="Mot de passe" />
-    <Button text="Login" onAction="#onLoginClicked"/>
+<VBox alignment="CENTER" spacing="20" style="-fx-background-color: #8A2BE2;" xmlns:fx="http://javafx.com/fxml" fx:controller="org.novalearn.controllers.user.LoginController">
+    <padding>
+        <Insets top="50" right="50" bottom="50" left="50"/>
+    </padding>
+
+    <Text text="Bienvenue sur" fill="WHITE" style="-fx-font-size: 36px;"/>
+    <Text text="Novalearn" fill="#FFD700" style="-fx-font-size: 48px; -fx-font-weight: bold;"/>
+
+    <Text text="Connectez-vous pour accéder à votre espace d'apprentissage"
+          fill="WHITE" wrappingWidth="600" textAlignment="CENTER" style="-fx-font-size: 18px;"/>
+
+    <GridPane vgap="15" hgap="10" maxWidth="400">
+        <TextField fx:id="emailField" promptText="Email"
+                   style="-fx-background-radius: 20; -fx-background-color: white;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+
+        <PasswordField fx:id="passwordField" promptText="Mot de passe"
+                       style="-fx-background-radius: 20; -fx-background-color: white;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    </GridPane>
+
+    <VBox spacing="10" alignment="CENTER">
+        <Button text="Se connecter" onAction="#onLoginClicked"
+                style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-size: 16px; -fx-padding: 10 20; -fx-background-radius: 20;"/>
+
+        <Button text="S'inscrire" onAction="#onRegisterClicked"
+                style="-fx-background-color: transparent; -fx-text-fill: white; -fx-border-color: white; -fx-border-radius: 20;"/>
+
+        <Hyperlink text="Mot de passe oublié ?" onAction="#handleForgotPassword"
+                   style="-fx-text-fill: white;"/>
+    </VBox>
 </VBox>

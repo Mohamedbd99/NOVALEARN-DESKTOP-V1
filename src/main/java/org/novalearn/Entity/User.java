@@ -41,7 +41,7 @@ public class User {
     private String nom;
 
     @Column(name = "num_tel", nullable = false)
-    private Integer numTel;
+    private Long numTel;
 
     @Column(name = "password", nullable = false)
     private String password;
@@ -64,6 +64,27 @@ public class User {
     @Column(name = "reset_token_expiry")
     private Instant resetTokenExpiry;
 
+    // Constructeurs
+    public User() {
+        this.isVerified = false;
+    }
+
+    public User(String nom, String prenom, String email, Long numTel, Integer age,
+                String genre, String specialite, String role, String password) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.numTel = numTel;
+        this.age = age;
+        this.difficulte = difficulte;
+        this.genre = genre;
+        this.specialite = specialite;
+        this.role = role;
+        this.password = password;
+        this.isVerified = false;
+    }
+
+    // Getters et Setters
     public Long getId() {
         return id;
     }
@@ -136,11 +157,11 @@ public class User {
         this.nom = nom;
     }
 
-    public Integer getNumTel() {
+    public Long getNumTel() {
         return numTel;
     }
 
-    public void setNumTel(Integer numTel) {
+    public void setNumTel(Long numTel) {
         this.numTel = numTel;
     }
 
@@ -199,5 +220,4 @@ public class User {
     public void setResetTokenExpiry(Instant resetTokenExpiry) {
         this.resetTokenExpiry = resetTokenExpiry;
     }
-
 }

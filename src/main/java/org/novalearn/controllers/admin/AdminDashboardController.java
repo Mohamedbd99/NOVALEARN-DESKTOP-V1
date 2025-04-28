@@ -1,0 +1,243 @@
+package org.novalearn.controllers.admin;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.GridPane;
+import javafx.geometry.Insets;
+import org.novalearn.Entity.User;
+import org.novalearn.MainApp;
+import org.novalearn.services.quiz.UserService;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
+
+public class AdminDashboardController {
+    @FXML private ListView<User> usersListView;
+    @FXML private ComboBox<String> roleFilterComboBox;
+    @FXML private TextField searchField;
+
+    private final UserService userService;
+    private ObservableList<User> usersList;
+    private FilteredList<User> filteredUsers;
+
+    public AdminDashboardController() {
+        this.userService = new UserService();
+    }
+
+    @FXML
+    public void initialize() {
+        // Initialiser le ComboBox des rôles
+        roleFilterComboBox.getItems().addAll("Tous", "Étudiant", "Enseignant", "admin", "Médecin", "Parent");
+        roleFilterComboBox.getSelectionModel().selectFirst();
+
+        // Configurer la ListView
+        usersListView.setCellFactory(lv -> new ListCell<User>() {
+            @Override
+            protected void updateItem(User user, boolean empty) {
+                super.updateItem(user, empty);
+                if (empty || user == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    HBox container = new HBox(10);
+                    Label infoLabel = new Label(String.format("%s %s (%s) - %s",
+                            user.getNom(), user.getPrenom(), user.getEmail(), user.getRole()));
+                    HBox.setHgrow(infoLabel, Priority.ALWAYS);
+
+                    Button editButton = new Button("Modifier");
+                    Button deleteButton = new Button("Supprimer");
+
+                    editButton.setOnAction(e -> onEditUserClicked(user));
+                    deleteButton.setOnAction(e -> onDeleteUserClicked(user));
+
+                    container.getChildren().addAll(infoLabel, editButton, deleteButton);
+                    setGraphic(container);
+                }
+            }
+        });
+
+        // Charger les utilisateurs
+        loadUsers();
+
+        // Configurer le filtre
+        roleFilterComboBox.setOnAction(e -> filterUsers());
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> filterUsers());
+    }
+
+    private void loadUsers() {
+        try {
+            List<User> users = userService.getAllUsers();
+            usersList = FXCollections.observableArrayList(users);
+            filteredUsers = new FilteredList<>(usersList);
+            usersListView.setItems(filteredUsers);
+        } catch (SQLException e) {
+            showAlert("Erreur", "Impossible de charger les utilisateurs", Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
+    }
+
+    private void filterUsers() {
+        String searchText = searchField.getText().toLowerCase();
+        String selectedRole = roleFilterComboBox.getValue();
+
+        filteredUsers.setPredicate(user -> {
+            boolean matchesSearch = user.getNom().toLowerCase().contains(searchText) ||
+                    user.getPrenom().toLowerCase().contains(searchText) ||
+                    user.getEmail().toLowerCase().contains(searchText);
+
+            boolean matchesRole = selectedRole.equals("Tous") || user.getRole().equals(selectedRole);
+
+            return matchesSearch && matchesRole;
+        });
+    }
+
+    @FXML
+    private void onSearchClicked() {
+        filterUsers();
+    }
+
+    @FXML
+    private void onAddUserClicked() {
+        try {
+            MainApp.showAdminRegister();
+        } catch (Exception e) {
+            showAlert("Erreur", "Erreur lors de l'ouverture du formulaire d'ajout", Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onEditUserClicked(User user) {
+        if (user == null) {
+            showAlert("Erreur", "Veuillez sélectionner un utilisateur à modifier", Alert.AlertType.ERROR);
+            return;
+        }
+
+        Dialog<User> dialog = new Dialog<>();
+        dialog.setTitle("Modifier l'utilisateur");
+        dialog.setHeaderText("Modifier les informations de l'utilisateur");
+
+        // Créer les champs du formulaire
+        TextField emailField = new TextField(user.getEmail());
+        TextField nomField = new TextField(user.getNom());
+        TextField prenomField = new TextField(user.getPrenom());
+        TextField ageField = new TextField(String.valueOf(user.getAge()));
+        ComboBox<String> genreComboBox = new ComboBox<>(FXCollections.observableArrayList("Homme", "Femme", "Autre"));
+        genreComboBox.setValue(user.getGenre());
+        TextField numTelField = new TextField(String.valueOf(user.getNumTel()));
+        ComboBox<String> roleComboBox = new ComboBox<>(FXCollections.observableArrayList("Étudiant", "Enseignant", "Admin"));
+        roleComboBox.setValue(user.getRole());
+        TextField specialiteField = new TextField(user.getSpecialite());
+
+        // Ajouter les champs au dialogue
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        grid.add(new Label("Email:"), 0, 0);
+        grid.add(emailField, 1, 0);
+        grid.add(new Label("Nom:"), 0, 1);
+        grid.add(nomField, 1, 1);
+        grid.add(new Label("Prénom:"), 0, 2);
+        grid.add(prenomField, 1, 2);
+        grid.add(new Label("Âge:"), 0, 3);
+        grid.add(ageField, 1, 3);
+        grid.add(new Label("Genre:"), 0, 4);
+        grid.add(genreComboBox, 1, 4);
+        grid.add(new Label("Téléphone:"), 0, 5);
+        grid.add(numTelField, 1, 5);
+        grid.add(new Label("Rôle:"), 0, 6);
+        grid.add(roleComboBox, 1, 6);
+        grid.add(new Label("Spécialité:"), 0, 7);
+        grid.add(specialiteField, 1, 7);
+
+        dialog.getDialogPane().setContent(grid);
+
+        // Ajouter les boutons
+        ButtonType saveButtonType = new ButtonType("Enregistrer", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+
+        // Convertir le résultat en User
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == saveButtonType) {
+                user.setEmail(emailField.getText());
+                user.setNom(nomField.getText());
+                user.setPrenom(prenomField.getText());
+                user.setAge(Integer.parseInt(ageField.getText()));
+                user.setGenre(genreComboBox.getValue());
+                user.setNumTel(Long.parseLong(numTelField.getText()));
+                user.setRole(roleComboBox.getValue());
+                user.setSpecialite(specialiteField.getText());
+                return user;
+            }
+            return null;
+        });
+
+        // Afficher le dialogue et traiter le résultat
+        Optional<User> result = dialog.showAndWait();
+        result.ifPresent(updatedUser -> {
+            try {
+                if (userService.updateUser(updatedUser)) {
+                    showAlert("Succès", "Utilisateur modifié avec succès", Alert.AlertType.INFORMATION);
+                    loadUsers(); // Recharger la liste des utilisateurs
+                } else {
+                    showAlert("Erreur", "Erreur lors de la modification de l'utilisateur", Alert.AlertType.ERROR);
+                }
+            } catch (SQLException e) {
+                showAlert("Erreur", "Erreur lors de la modification de l'utilisateur", Alert.AlertType.ERROR);
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void onDeleteUserClicked(User user) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation de suppression");
+        alert.setHeaderText(null);
+        alert.setContentText("Êtes-vous sûr de vouloir supprimer cet utilisateur ?");
+
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            try {
+                if (userService.deleteUser(user.getId())) {
+                    usersList.remove(user);
+                    showAlert("Succès", "Utilisateur supprimé avec succès", Alert.AlertType.INFORMATION);
+                } else {
+                    showAlert("Erreur", "Impossible de supprimer l'utilisateur", Alert.AlertType.ERROR);
+                }
+            } catch (SQLException e) {
+                showAlert("Erreur", "Erreur lors de la suppression", Alert.AlertType.ERROR);
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
+    private void onExportClicked() {
+        // TODO: Implémenter l'export en CSV
+        showAlert("Info", "Fonctionnalité à implémenter", Alert.AlertType.INFORMATION);
+    }
+
+    @FXML
+    private void onLogoutClicked() {
+        try {
+            MainApp.showLogin();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showAlert(String title, String content, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+}

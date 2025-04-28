@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.novalearn.controllers.user.VerifyEmailController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Vérification de votre email" style="-fx-font-size: 18px;"/>
+    <Label text="Entrez le code de vérification envoyé à votre adresse email" style="-fx-font-size: 14px;"/>
+
+    <TextField fx:id="verificationCodeField" promptText="Code de vérification"/>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Vérifier" onAction="#handleVerify"/>
+        <Button text="Retour" onAction="#handleBack"/>
+    </HBox>
+</VBox>
