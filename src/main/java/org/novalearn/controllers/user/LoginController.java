@@ -2,6 +2,7 @@ package org.novalearn.controllers.user;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.novalearn.MainApp;
@@ -10,10 +11,12 @@ import org.novalearn.services.quiz.UserService;
 import org.novalearn.Entity.User;
 
 import java.sql.SQLException;
+import java.util.prefs.Preferences;
 
 public class LoginController {
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
+    @FXML private CheckBox rememberMeCheckBox;
 
     private final UserService userService;
     private final FailedLoginService failedLoginService;
@@ -21,6 +24,20 @@ public class LoginController {
     public LoginController() {
         this.userService = new UserService();
         this.failedLoginService = new FailedLoginService();
+    }
+
+    // Méthode d'initialisation pour pré-remplir les champs avec les informations mémorisées
+    @FXML
+    public void initialize() {
+        Preferences prefs = Preferences.userNodeForPackage(LoginController.class);
+        String rememberedEmail = prefs.get("rememberedEmail", "");
+        String rememberedPassword = prefs.get("rememberedPassword", "");
+
+        if (!rememberedEmail.isEmpty() && !rememberedPassword.isEmpty()) {
+            emailField.setText(rememberedEmail);
+            passwordField.setText(rememberedPassword);
+            rememberMeCheckBox.setSelected(true);
+        }
     }
 
     @FXML
@@ -49,7 +66,14 @@ public class LoginController {
 
                 // Vérifier l'état du compte
                 if (user.isActive() == 1) {
-                    // Utilisateur actif : connexion autorisée
+                    // Sauvegarder les informations de connexion si "Se souvenir de moi" est coché
+                    if (rememberMeCheckBox.isSelected()) {
+                        Preferences prefs = Preferences.userNodeForPackage(LoginController.class);
+                        prefs.put("rememberedEmail", email);
+                        prefs.put("rememberedPassword", password);  // Attention à la sécurité pour le mot de passe
+                    }
+
+                    // Rediriger vers la page appropriée en fonction du rôle de l'utilisateur
                     if ("admin".equalsIgnoreCase(user.getRole())) {
                         MainApp.showAdminDashboard();
                     } else {
