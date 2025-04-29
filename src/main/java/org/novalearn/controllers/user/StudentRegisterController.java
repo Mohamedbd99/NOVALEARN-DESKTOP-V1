@@ -94,7 +94,7 @@ public class StudentRegisterController {
         }
 
         if (!isValidAge(ageField.getText())) {
-            showAlert("Erreur", "L'âge doit être un nombre entre 16 et 100", Alert.AlertType.ERROR);
+            showAlert("Erreur", "L'âge doit être un nombre entre 6 et 14 ans", Alert.AlertType.ERROR);
             return false;
         }
 
@@ -123,13 +123,14 @@ public class StudentRegisterController {
     }
 
     private boolean isValidPhone(String phone) {
-        return phone.matches("\\d{10,15}");
+        return phone.matches("\\d{8}");  // Valide exactement 8 chiffres
     }
+
 
     private boolean isValidAge(String age) {
         try {
             int ageNum = Integer.parseInt(age);
-            return ageNum >= 16 && ageNum <= 100;
+            return ageNum >= 6 && ageNum <= 14;
         } catch (NumberFormatException e) {
             return false;
         }

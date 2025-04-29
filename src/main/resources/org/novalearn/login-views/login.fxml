@@ -11,19 +11,21 @@
 
     <Text text="Bienvenue sur" fill="WHITE" style="-fx-font-size: 36px;"/>
     <Text text="Novalearn" fill="#FFD700" style="-fx-font-size: 48px; -fx-font-weight: bold;"/>
-
     <Text text="Connectez-vous pour accéder à votre espace d'apprentissage"
           fill="WHITE" wrappingWidth="600" textAlignment="CENTER" style="-fx-font-size: 18px;"/>
 
-    <GridPane vgap="15" hgap="10" maxWidth="400">
+    <!-- ENSEMBLE FORMULAIRE + BOUTONS DANS UN VBox -->
+    <VBox spacing="15" alignment="CENTER" maxWidth="400">
+
         <TextField fx:id="emailField" promptText="Email"
-                   style="-fx-background-radius: 20; -fx-background-color: white;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                   style="-fx-background-radius: 20; -fx-background-color: white;"/>
 
         <PasswordField fx:id="passwordField" promptText="Mot de passe"
-                       style="-fx-background-radius: 20; -fx-background-color: white;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-    </GridPane>
+                       style="-fx-background-radius: 20; -fx-background-color: white;"/>
 
-    <VBox spacing="10" alignment="CENTER">
+        <CheckBox fx:id="rememberMeCheckBox" text="Se souvenir de moi"
+                  style="-fx-text-fill: white; -fx-font-size: 14px;" />
+
         <Button text="Se connecter" onAction="#onLoginClicked"
                 style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-size: 16px; -fx-padding: 10 20; -fx-background-radius: 20;"/>
 
@@ -32,5 +34,6 @@
 
         <Hyperlink text="Mot de passe oublié ?" onAction="#handleForgotPassword"
                    style="-fx-text-fill: white;"/>
+
     </VBox>
 </VBox>

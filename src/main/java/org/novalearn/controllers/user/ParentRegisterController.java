@@ -18,6 +18,7 @@ public class ParentRegisterController {
     @FXML private TextField specialiteField;
     @FXML private PasswordField passwordField;
     @FXML private PasswordField confirmPasswordField;
+    @FXML private ProgressBar passwordStrengthBar;  // Ajout de la ProgressBar
 
     private final UserService userService;
 
@@ -27,22 +28,87 @@ public class ParentRegisterController {
 
     @FXML
     public void initialize() {
-        genreComboBox.getItems().addAll("Homme", "Femme", "Autre");
+        genreComboBox.getItems().addAll("Homme", "Femme");
+
+        // Ajouter un écouteur d'événements pour le champ de mot de passe
+        passwordField.textProperty().addListener((observable, oldValue, newValue) -> checkPasswordStrength());
+    }
+
+    // Fonction pour vérifier la force du mot de passe et mettre à jour la barre de progression
+    private void checkPasswordStrength() {
+        String password = passwordField.getText();
+        int strength = 0;
+
+        // Vérifications de complexité du mot de passe
+        if (password.length() >= 8) strength++;
+        if (password.matches(".*[A-Z].*")) strength++; // Lettre majuscule
+        if (password.matches(".*[a-z].*")) strength++; // Lettre minuscule
+        if (password.matches(".*\\d.*")) strength++; // Chiffre
+        if (password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) strength++; // Caractère spécial
+
+        // Mettre à jour la barre de progression
+        passwordStrengthBar.setProgress(strength / 5.0); // La force va de 0 à 1 (5 critères max)
+
+        // Mise à jour de la couleur de la barre en fonction de la force du mot de passe
+        if (strength == 1) {
+            passwordStrengthBar.setStyle("-fx-accent: red;");
+        } else if (strength == 2) {
+            passwordStrengthBar.setStyle("-fx-accent: orange;");
+        } else if (strength == 3) {
+            passwordStrengthBar.setStyle("-fx-accent: yellow;");
+        } else if (strength == 4) {
+            passwordStrengthBar.setStyle("-fx-accent: lightgreen;");
+        } else if (strength == 5) {
+            passwordStrengthBar.setStyle("-fx-accent: green;");
+        }
+    }
+
+    // Fonction de validation du mot de passe
+    private boolean isPasswordStrong(String password) {
+        if (password.length() < 8) {
+            return false;
+        }
+        if (!password.matches(".*[A-Z].*")) {
+            return false;
+        }
+        if (!password.matches(".*[a-z].*")) {
+            return false;
+        }
+        if (!password.matches(".*\\d.*")) {
+            return false;
+        }
+        if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
+            return false;
+        }
+        return true;
     }
 
     @FXML
     private void onRegisterClicked() {
         if (validateFields()) {
+            String password = passwordField.getText();
+
+            // Vérifie si le mot de passe est fort
+            if (!isPasswordStrong(password)) {
+                showAlert("Erreur", "Le mot de passe doit être d'au moins 8 caractères, contenir des majuscules, des chiffres et des caractères spéciaux.", Alert.AlertType.ERROR);
+                return;
+            }
+
+            if (!password.equals(confirmPasswordField.getText())) {
+                showAlert("Erreur", "Les mots de passe ne correspondent pas", Alert.AlertType.ERROR);
+                return;
+            }
+
             try {
                 User user = new User();
                 user.setEmail(emailField.getText());
-                user.setPassword(passwordField.getText());
+                user.setPassword(password);
                 user.setNom(nomField.getText());
                 user.setPrenom(prenomField.getText());
                 user.setAge(Integer.parseInt(ageField.getText()));
                 user.setGenre(genreComboBox.getValue());
                 user.setNumTel(Long.parseLong(numTelField.getText()));
-                user.setRole("Étudiant");
+                user.setRole("Parent");
                 user.setSpecialite(specialiteField.getText());
 
                 String verificationCode = userService.register(user);
@@ -94,7 +160,7 @@ public class ParentRegisterController {
         }
 
         if (!isValidAge(ageField.getText())) {
-            showAlert("Erreur", "L'âge doit être un nombre entre 16 et 100", Alert.AlertType.ERROR);
+            showAlert("Erreur", "L'âge doit être un nombre entre 28 et 99", Alert.AlertType.ERROR);
             return false;
         }
 
@@ -123,13 +189,13 @@ public class ParentRegisterController {
     }
 
     private boolean isValidPhone(String phone) {
-        return phone.matches("\\d{10,15}");
+        return phone.matches("\\d{8}");  // Valide exactement 8 chiffres
     }
 
     private boolean isValidAge(String age) {
         try {
             int ageNum = Integer.parseInt(age);
-            return ageNum >= 16 && ageNum <= 100;
+            return ageNum >= 28 && ageNum <= 99;
         } catch (NumberFormatException e) {
             return false;
         }

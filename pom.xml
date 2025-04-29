@@ -14,6 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <javafx.version>24.0.1</javafx.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>mysql</groupId>
@@ -76,9 +77,9 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>org.novalearn.MainApp</mainClass>
-
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -92,6 +93,7 @@
                 </configuration>
             </plugin>
         </plugins>
+
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

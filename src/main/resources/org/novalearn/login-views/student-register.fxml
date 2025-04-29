@@ -5,42 +5,63 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" spacing="20" style="-fx-background-color: #8A2BE2;" xmlns:fx="http://javafx.com/fxml" fx:controller="org.novalearn.controllers.user.StudentRegisterController">
+<VBox alignment="CENTER" spacing="30" style="-fx-background-color: #8A2BE2;" xmlns:fx="http://javafx.com/fxml" fx:controller="org.novalearn.controllers.user.StudentRegisterController">
     <padding>
         <Insets top="50" right="50" bottom="50" left="50"/>
     </padding>
 
     <Text text="Inscription Étudiant" fill="WHITE" style="-fx-font-size: 36px; -fx-font-weight: bold;"/>
 
-    <GridPane vgap="15" hgap="10" maxWidth="400">
+    <GridPane hgap="20" vgap="15" alignment="CENTER" maxWidth="600">
+        <columnConstraints>
+            <ColumnConstraints halignment="RIGHT" />
+            <ColumnConstraints halignment="LEFT" />
+        </columnConstraints>
+
+        <!-- Ligne 1 : Nom et Prénom -->
         <TextField fx:id="nomField" promptText="Nom"
-                   style="-fx-background-radius: 20; -fx-background-color: white;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                   style="-fx-background-radius: 20; -fx-background-color: white;"
+                   GridPane.columnIndex="0" GridPane.rowIndex="0"/>
 
         <TextField fx:id="prenomField" promptText="Prénom"
-                   style="-fx-background-radius: 20; -fx-background-color: white;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                   style="-fx-background-radius: 20; -fx-background-color: white;"
+                   GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
+        <!-- Ligne 2 : Email et Téléphone -->
         <TextField fx:id="emailField" promptText="Email"
-                   style="-fx-background-radius: 20; -fx-background-color: white;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                   style="-fx-background-radius: 20; -fx-background-color: white;"
+                   GridPane.columnIndex="0" GridPane.rowIndex="1"/>
 
         <TextField fx:id="numTelField" promptText="Numéro de téléphone"
-                   style="-fx-background-radius: 20; -fx-background-color: white;" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                   style="-fx-background-radius: 20; -fx-background-color: white;"
+                   GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
+        <!-- Ligne 3 : Âge et Genre -->
         <TextField fx:id="ageField" promptText="Âge"
-                   style="-fx-background-radius: 20; -fx-background-color: white;" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                   style="-fx-background-radius: 20; -fx-background-color: white;"
+                   GridPane.columnIndex="0" GridPane.rowIndex="2"/>
 
         <ComboBox fx:id="genreComboBox" promptText="Genre"
-                  style="-fx-background-radius: 20; -fx-background-color: white;" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                  style="-fx-background-radius: 20; -fx-background-color: white;"
+                  GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-        <TextField fx:id="specialiteField" promptText="Specialite"
-                   style="-fx-background-radius: 20; -fx-background-color: white;" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+        <!-- Ligne 4 : Spécialité -->
+        <TextField fx:id="specialiteField" promptText="Spécialité"
+                   style="-fx-background-radius: 20; -fx-background-color: white;"
+                   GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="2"/>
 
+        <!-- Ligne 5 : Mot de passe -->
         <PasswordField fx:id="passwordField" promptText="Mot de passe"
-                       style="-fx-background-radius: 20; -fx-background-color: white;" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+                       style="-fx-background-radius: 20; -fx-background-color: white; -fx-pref-width: 100%;"
+                       GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="2"/>
 
+        <!-- Ligne 6 : Confirmation du mot de passe -->
         <PasswordField fx:id="confirmPasswordField" promptText="Confirmer le mot de passe"
-                       style="-fx-background-radius: 20; -fx-background-color: white;" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
+                       style="-fx-background-radius: 20; -fx-background-color: white; -fx-pref-width: 100%;"
+                       GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.columnSpan="2"/>
     </GridPane>
 
+    <!-- Boutons -->
     <HBox spacing="20" alignment="CENTER">
         <Button text="S'inscrire" onAction="#onRegisterClicked"
                 style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-size: 16px; -fx-padding: 10 20; -fx-background-radius: 20;"/>

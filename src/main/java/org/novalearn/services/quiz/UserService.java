@@ -139,6 +139,7 @@ public class UserService {
             user.setRole(rs.getString("role"));
             user.setSpecialite(rs.getString("specialite"));
             user.setIsVerified(rs.getBoolean("isVerified"));
+            user.setIsActive(rs.getBoolean("is_active"));
             users.add(user);
         }
         return users;
@@ -266,4 +267,16 @@ public class UserService {
             throw new RuntimeException("Erreur de hachage : " + e.getMessage());
         }
     }
+
+    public boolean toggleUserStatus(Long userId) throws SQLException {
+        String query = "UPDATE user SET is_active = NOT is_active WHERE id = ?";
+        try (PreparedStatement stmt = cnx.prepareStatement(query)) {
+            stmt.setLong(1, userId);  // Utilisation de setLong() au lieu de setInt()
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        }
+    }
+
+
+
 }
