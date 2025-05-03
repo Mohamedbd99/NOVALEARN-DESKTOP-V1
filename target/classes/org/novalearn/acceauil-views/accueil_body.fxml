@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" prefWidth="282.0" spacing="20" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+    <Label style="-fx-font-size: 24px;" text="Bienvenue sur NovaLearn !" />
+    <Label text="Sélectionnez une section dans la barre ci‑dessus." />
+</VBox>

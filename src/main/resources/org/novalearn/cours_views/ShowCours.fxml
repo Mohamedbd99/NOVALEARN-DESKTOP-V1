@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="575.0" prefWidth="1071.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #7099da, #8bbae1, #91c4ec, #6386c5);" styleClass="modal" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.novalearn.controllers.ShowCours">
+    <children>
+        <AnchorPane prefHeight="575.0" prefWidth="357.0" style="-fx-background-image: url('/org/novalearn/log.jpeg'); -fx-background-repeat: no-repeat; -fx-background-size: cover;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+
+                <ImageView fitHeight="28.0" fitWidth="205.0" layoutX="129.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../logoo.png" />
+                    </image>
+                </ImageView>
+
+                <Label alignment="CENTER" layoutX="105.0" layoutY="118.0" prefHeight="23.0" prefWidth="173.0" text="Energie et Télécom" textFill="WHITE">
+                    <font>
+                        <Font name="Segoe UI" size="18.0" />
+                    </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="107.0" layoutY="141.0" prefHeight="28.0" prefWidth="215.0" text="Solution BroadBand" textFill="WHITE">
+                    <font>
+                        <Font name="Segoe UI" size="21.0" />
+                    </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="67.0" layoutY="169.0" prefHeight="28.0" prefWidth="295.0" text="Solutions Audio Vidéo" textFill="WHITE">
+                    <font>
+                        <Font name="Segoe UI" size="23.0" />
+                    </font>
+                </Label>
+                <Button layoutX="67.0" layoutY="361.0" mnemonicParsing="false" onAction="#updateCours" prefHeight="32.0" prefWidth="251.0" style="-fx-background-color: #b8c3da; -fx-background-radius: 20 20 20 20;" text="Modifier" textFill="#174090">
+
+                </Button>
+                <Button layoutX="67.0" layoutY="310.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="251.0" style="-fx-background-color: #b8c3da; -fx-background-radius: 20 20 20 20;" text="Supprimer" textFill="#174090">
+                </Button>
+
+                <Button layoutX="67.0" layoutY="417.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="251.0" style="-fx-background-color: #b8c3da; -fx-background-radius: 20 20 20 20;" text="logout" textFill="#14274a">
+
+
+                </Button>
+
+
+            </children>
+        </AnchorPane>
+        <Pane layoutX="394.0" layoutY="11.0" prefHeight="537.0" prefWidth="672.0" AnchorPane.bottomAnchor="27.0" AnchorPane.topAnchor="11.0">
+            <children>
+                <VBox layoutX="80.0" prefHeight="282.0" prefWidth="122.0" spacing="20.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 20 20 20 20;">
+                    <children>
+                        <Label text="Titre" />
+                        <Label text="Description" />
+                        <Label text="Contenu" />
+                        <Label text="Auteur" />
+                        <Label text="Image" />
+                        <Label text="Likes" />
+                        <Label text="téléchargements" />
+                        <Label text="vidéo" />
+                    </children>
+                    <padding>
+                        <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+                    </padding>
+                </VBox>
+                <VBox layoutX="218.0" layoutY="3.0" prefHeight="270.0" prefWidth="155.0" spacing="10.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 20 20 20 20;">
+                    <children>
+                        <TextField fx:id="titreField" style="-fx-background-radius: 20 20 20 20; -fx-background-color: #88c2dc;" />
+                        <TextField fx:id="descriptionField" style="-fx-background-radius: 20 20 20 20; -fx-background-color: #88c2dc;" />
+                        <TextField fx:id="contenuField" style="-fx-background-radius: 20 20 20 20; -fx-background-color: #88c2dc;" />
+                        <TextField fx:id="authorIdField" style="-fx-background-radius: 20 20 20 20; -fx-background-color: #88c2dc;" />
+                        <HBox spacing="10">
+                            <TextField fx:id="imageField" HBox.hgrow="ALWAYS" />
+                            <Button onAction="#chooseImage" text="Choisir Image" />
+                        </HBox>
+                        <TextField fx:id="nbrLikeField" style="-fx-background-radius: 20 20 20 20; -fx-background-color: #88c2dc;" />
+                        <TextField fx:id="nombreDeTelechargementsField" style="-fx-background-radius: 20 20 20 20; -fx-background-color: #88c2dc;" />
+                        <HBox spacing="10">
+                            <TextField fx:id="videoField" HBox.hgrow="ALWAYS" />
+                            <Button onAction="#chooseVideo" text="Choisir Vidéo" />
+                        </HBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+                    </padding>
+                </VBox>
+                <Button layoutX="105.0" layoutY="307.0" mnemonicParsing="false" onAction="#addCours" prefHeight="23.0" prefWidth="259.0" style="-fx-background-color: #123ba4; -fx-background-radius: 20 20 20 20;" text="Ajouter Cours" textFill="#f9fafc">
+                    <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                    </font></Button>
+                <VBox fx:id="rootPane" layoutY="347.0" prefHeight="190.0" prefWidth="611.0">
+               <children>
+      
+            <ListView fx:id="coursListView" prefHeight="191.0" prefWidth="494.0" style="-fx-background-radius: 20 20 20 20;" />
+               </children>
+
+</VBox>
+            </children>
+
+        </Pane>
+    </children>
+</AnchorPane>
