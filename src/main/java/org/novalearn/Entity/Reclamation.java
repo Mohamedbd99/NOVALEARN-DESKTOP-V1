@@ -1,90 +1,115 @@
 package org.novalearn.Entity;
 
-import javax.persistence.*;
-import java.time.Instant;
 
-@Entity
-@Table(name = "reclamation", schema = "novalearn", indexes = {
-        @Index(name = "IDX_CE60640412469DE2", columnList = "category_id")
-})
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+
 public class Reclamation {
-    @Id
-    @Column(name = "id", nullable = false)
-    private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
+    private int id;
 
-    @Column(name = "nom", nullable = false)
-    private String nom;
+    private String title;
 
-    @Column(name = "email", nullable = false)
-    private String email;
+    private String description;
 
-    @Column(name = "message", nullable = false)
-    private String message;
+    private String status; // EN_ATTENTE, EN_COURS, RESOLUE
 
-    @Column(name = "statut", nullable = false)
-    private String statut;
+    private String priority; // URGENT, NORMAL, FAIBLE
 
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    private Date createdAt;
 
-    public Integer getId() {
+    private int genreId;
+
+    public Reclamation() {
+    }
+
+    @Override
+    public String toString() {
+        return "Reclamation{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", status='" + status + '\'' +
+                ", priority='" + priority + '\'' +
+                ", createdAt=" + createdAt +
+                ", genreId=" + genreId +
+                '}';
+    }
+
+    public Reclamation(int id, String title, String description, String priority, String status, Date createdAt, int genreId) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.priority = priority;
+        this.createdAt = createdAt;
+        this.genreId = genreId;
+    }
+
+    public Reclamation(String title, String description, String priority,  String status,LocalDate createdAt, int genreId) {
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.priority = priority;
+        this.createdAt = Date.valueOf(createdAt);
+        this.genreId = genreId;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Category getCategory() {
-        return category;
+    public String getTitle() {
+        return title;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getNom() {
-        return nom;
+    public String getDescription() {
+        return description;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getEmail() {
-        return email;
+    public String getStatus() {
+        return status;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public String getMessage() {
-        return message;
+    public String getPriority() {
+        return priority;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setPriority(String priority) {
+        this.priority = priority;
     }
 
-    public String getStatut() {
-        return statut;
-    }
-
-    public void setStatut(String statut) {
-        this.statut = statut;
-    }
-
-    public Instant getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Instant createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
+    public int getGenreId() {
+        return genreId;
+    }
+
+    public void setGenreId(int genreId) {
+        this.genreId = genreId;
+    }
 }

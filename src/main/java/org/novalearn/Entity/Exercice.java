@@ -1,69 +1,51 @@
 package org.novalearn.Entity;
 
-import javax.persistence.*;
-import java.time.Instant;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "exercice", schema = "novalearn", indexes = {
-        @Index(name = "IDX_E418C74D591CC992", columnList = "course_id")
-})
 public class Exercice {
-    @Id
-    @Column(name = "id", nullable = false)
-    private Integer id;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
-
-    @Column(name = "titre", nullable = false)
+    private int id;
+    private int course_id;
     private String titre;
-
-    @Lob
-    @Column(name = "description", nullable = false)
     private String description;
+    private Date createdAt;
 
-    @Column(name = "created_at")
-    private Instant createdAt;
+    // Constructeurs
+    public Exercice() {}
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
+    public Exercice(int id, int course_id, String titre, String description, Date createdAt) {
         this.id = id;
-    }
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-
-    public String getTitre() {
-        return titre;
-    }
-
-    public void setTitre(String titre) {
+        this.course_id = course_id;
         this.titre = titre;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
+    public Exercice(String titre, String description, int course_id, LocalDate createdAt) {
+        this.course_id = course_id;
+        this.titre = titre;
+        this.description = description;
+        this.createdAt = Date.valueOf(createdAt);
+    }
+
+
+
+
+    // Getters & Setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public int getCourseId() { return course_id; }
+    public void setCourseId(int courseId) { this.course_id = courseId; }
+
+    public String getTitre() { return titre; }
+    public void setTitre(String titre) { this.titre = titre; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public Date getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
 }
+

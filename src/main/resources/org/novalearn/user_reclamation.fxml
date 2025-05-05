@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<VBox spacing="20" alignment="CENTER" prefWidth="1000" prefHeight="700" styleClass="root"
+      stylesheets="@../../styles/styles.css"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novalearn.controller.UserReclamationController">
+    
+    <!-- Header -->
+    <HBox styleClass="header" alignment="CENTER_LEFT" VBox.vgrow="NEVER">
+        <padding>
+            <Insets top="10" right="20" bottom="10" left="20"/>
+        </padding>
+        <Label text="NovaLearn" styleClass="logo"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Retour" styleClass="button,secondary" onAction="#handleBack"/>
+    </HBox>
+
+    <!-- Statistics Section -->
+    <HBox spacing="20" alignment="CENTER">
+        <VBox styleClass="stat-card" alignment="CENTER">
+            <Text text="Total" styleClass="stat-title"/>
+            <Label fx:id="totalLabel" text="0" styleClass="stat-value"/>
+        </VBox>
+        <VBox styleClass="stat-card" alignment="CENTER">
+            <Text text="En Attente" styleClass="stat-title"/>
+            <Label fx:id="enAttenteLabel" text="0" styleClass="stat-value"/>
+        </VBox>
+        <VBox styleClass="stat-card" alignment="CENTER">
+            <Text text="En Cours" styleClass="stat-title"/>
+            <Label fx:id="enCoursLabel" text="0" styleClass="stat-value"/>
+        </VBox>
+        <VBox styleClass="stat-card" alignment="CENTER">
+            <Text text="Résolues" styleClass="stat-title"/>
+            <Label fx:id="resoluesLabel" text="0" styleClass="stat-value"/>
+        </VBox>
+    </HBox>
+
+    <!-- Main Content -->
+    <VBox spacing="20" VBox.vgrow="ALWAYS">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <!-- Search and Filter Options -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <TextField fx:id="searchField" promptText="Rechercher..." prefWidth="200"/>
+            <ComboBox fx:id="filterStatus" promptText="Filtrer par statut"/>
+            <ComboBox fx:id="filterType" promptText="Filtrer par type"/>
+            <DatePicker fx:id="filterDate" promptText="Filtrer par date"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Réinitialiser" onAction="#handleResetFilters" styleClass="button,secondary"/>
+        </HBox>
+
+        <!-- Main Content Area -->
+        <HBox spacing="20" VBox.vgrow="ALWAYS">
+            <!-- Left Panel: Table -->
+            <VBox spacing="10" HBox.hgrow="ALWAYS" styleClass="container">
+                <Text text="Liste des Réclamations" styleClass="title"/>
+                
+                <TableView fx:id="reclamationTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="titreColumn" text="Titre" prefWidth="250"/>
+                        <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="350"/>
+                        <TableColumn fx:id="statutColumn" text="Statut" prefWidth="120"/>
+                        <TableColumn fx:id="genreColumn" text="Type" prefWidth="120"/>
+                        <TableColumn fx:id="dateCreationColumn" text="Date" prefWidth="150"/>
+                    </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                </TableView>
+            </VBox>
+            
+            <!-- Right Panel: Form and Discussion -->
+            <VBox spacing="15" styleClass="container" minWidth="300">
+                <Text text="Détails" styleClass="title"/>
+                
+                <Label text="Titre"/>
+                <TextField fx:id="titreField"/>
+                
+                <Label text="Description"/>
+                <TextArea fx:id="descriptionField" wrapText="true" prefRowCount="4"/>
+                
+                <Label text="Type"/>
+                <ComboBox fx:id="genreComboBox" maxWidth="Infinity"/>
+                
+                <Region VBox.vgrow="ALWAYS"/>
+                
+                <!-- Discussion Section -->
+                <VBox spacing="10" styleClass="discussion-container">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Text text="Discussion" styleClass="subtitle"/>
+                        <Circle fx:id="adminStatusIndicator" radius="5" styleClass="status-offline"/>
+                        <Label fx:id="adminStatusLabel" text="Admin hors ligne" styleClass="status-text"/>
+                    </HBox>
+                    
+                    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="chat-scroll">
+                        <VBox fx:id="chatBox" spacing="10" styleClass="chat-container"/>
+                    </ScrollPane>
+                    
+                    <HBox spacing="10" alignment="CENTER">
+                        <TextField fx:id="messageField" HBox.hgrow="ALWAYS" 
+                                 promptText="Écrivez votre message..." 
+                                 styleClass="chat-input"
+                                 onAction="#handleSendMessage"/>
+                        <Button text="Envoyer" 
+                                onAction="#handleSendMessage" 
+                                styleClass="button,primary,send-button"/>
+                    </HBox>
+                </VBox>
+                
+                <HBox spacing="10">
+                    <Button text="Nouvelle Réclamation" onAction="#handleNewReclamation" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                    <Button text="Supprimer" onAction="#handleDelete" styleClass="delete-button" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+                
+                <Button text="Effacer" onAction="#handleClear" styleClass="button,secondary" maxWidth="Infinity"/>
+            </VBox>
+        </HBox>
+    </VBox>
+</VBox> 

@@ -1,103 +1,146 @@
 package org.novalearn.Entity;
 
-import javax.persistence.*;
-import java.time.Instant;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Arrays;
 
-@Entity
-@Table(name = "blog", schema = "novalearn", indexes = {
-        @Index(name = "IDX_C0155143F675F31B", columnList = "author_id")
-})
 public class Blog {
-    @Id
-    @Column(name = "id", nullable = false)
-    private Integer id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
-    private org.novalearn.Entity.User author;
-
-    @Lob
-    @Column(name = "description", nullable = false)
-    private String description;
-
-    @Lob
-    @Column(name = "content", nullable = false)
-    private String content;
-
-    @Column(name = "image")
-    private String image;
-
-    @Column(name = "category", nullable = false)
-    private String category;
-
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
-
-    @Column(name = "title", nullable = false)
+    private int id;
     private String title;
+    private String description;
+    private String content;
+    private String category;
+    private int authorId;
+    private byte[] image;
+    private Date createdAt;
+    private Boolean estAnonyme;
 
-    public Integer getId() {
-        return id;
+    public Blog(String titre, String description, String contenu, String category, int authorId, byte[] imageBytes, LocalDate createdAt) {
     }
 
-    public void setId(Integer id) {
+    public Boolean getEstAnonyme() {
+        return estAnonyme;
+    }
+
+    public void setEstAnonyme(Boolean estAnonyme) {
+        this.estAnonyme = estAnonyme;
+    }
+
+    @Override
+    public String toString() {
+        return "Blog{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", content='" + content + '\'' +
+                ", category='" + category + '\'' +
+                ", authorId=" + authorId +
+                ", image=" + Arrays.toString(image) +
+                ", createdAt=" + createdAt +
+                ", estAnonyme=" + estAnonyme +
+                '}';
+    }
+
+
+
+    public Blog(int id, String title, String description, String content, String category, int authorId, byte[] image, Date createdAt, Boolean estAnonyme) {
         this.id = id;
-    }
-
-    public org.novalearn.Entity.User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(org.novalearn.Entity.User author) {
-        this.author = author;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
+        this.title = title;
         this.description = description;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
         this.category = category;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
+        this.authorId = authorId;
+        this.image = image;
         this.createdAt = createdAt;
+        this.estAnonyme = estAnonyme;
+    }
+    public Blog(String title, String description, String content, String category, int authorId, byte[] image, LocalDate createdAt, Boolean estAnonyme) {
+        this.title = title;
+        this.description = description;
+        this.content = content;
+        this.category = category;
+        this.authorId = authorId;
+        this.image = image;
+        this.createdAt = Date.valueOf(createdAt);
+        this.estAnonyme = estAnonyme;
+    }
+
+    public Blog(int id, String title, String description, String content, String category, int authorId, byte[] image, Date createdAt) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.content = content;
+        this.category = category;
+        this.authorId = authorId;
+        this.image = image;
+        this.createdAt = createdAt;
+    }
+
+    public Blog() {
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public int getAuthorId() {
+        return authorId;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
 }

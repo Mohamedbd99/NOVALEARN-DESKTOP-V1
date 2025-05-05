@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="mainContent" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.novalearn.controllers.cours.CoursController">
+   <children>
+      <BorderPane styleClass="gradient-background" stylesheets="@../alertStyles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <bottom>
+            <VBox  alignment="TOP_CENTER" spacing="10" BorderPane.alignment="BOTTOM_CENTER">
+               <children>
+                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="Infinity" prefHeight="500.0" vbarPolicy="AS_NEEDED">
+                     <content>
+                        <StackPane alignment="TOP_CENTER">
+
+                        <FlowPane fx:id="coursFlowPane"
+                                  alignment="CENTER"
+                                  hgap="20.0"
+                                  vgap="20.0"
+                                  maxWidth="1000"
+                                  prefWrapLength="900"
+                                  style="-fx-padding: 10;">
+                        </FlowPane>
+                     </StackPane>
+
+                  </content>
+                  </ScrollPane>
+               </children></VBox>
+         </bottom>
+         <top>
+            <Pane prefHeight="100.0" BorderPane.alignment="CENTER">
+               <styleClass>
+                  <String fx:value="gradient-background" />
+                  <String fx:value="line-color" />
+               </styleClass>
+               <children>
+                  <ImageView fitHeight="110.0" fitWidth="306.0" layoutX="25.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../logooo.png" />
+                     </image>
+                  </ImageView>
+                  <ComboBox fx:id="sortComboBox" layoutX="340.0" layoutY="39.0" onAction="#handleSortSelection">
+                     <items>
+                        <FXCollections fx:factory="observableArrayList">
+                           <String fx:value="Par Likes" />
+                           <String fx:value="Par Téléchargements" />
+                        </FXCollections>
+                     </items>
+                  </ComboBox>
+               </children>
+            </Pane>
+         </top></BorderPane>
+   </children>
+</AnchorPane>

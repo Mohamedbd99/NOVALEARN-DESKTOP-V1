@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.novalearn.controllers.cours.cours_app">
+    <children>
+        <BorderPane styleClass="gradient-background" stylesheets="@../alertStyles.css"
+                    AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <top>
+                <VBox spacing="10" alignment="CENTER" BorderPane.alignment="CENTER">
+                    <children>
+                        <ImageView fitHeight="100.0" fitWidth="200.0" preserveRatio="true">
+                            <image>
+                                <Image url="@../logooo.png"/>
+                            </image>
+                        </ImageView>
+                    </children>
+                    <padding>
+                        <Insets top="20.0" bottom="10.0"/>
+                    </padding>
+                </VBox>
+            </top>
+
+            <center>
+                <VBox spacing="15" alignment="CENTER" BorderPane.alignment="CENTER">
+                    <children>
+                        <Label text="Entrez votre texte :" textFill="#ffffff">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Label>
+
+                        <TextArea fx:id="promptArea" promptText="Entrez votre texte ici..."
+                                  prefHeight="100.0" prefWidth="400.0"
+                                  style="-fx-background-radius: 10; -fx-background-color: #c1c9d6;"/>
+
+                        <Button text="Soumettre" onAction="#onSubmit"
+                                style="-fx-background-color: #c28ee3; -fx-background-radius: 20; -fx-text-fill: white;">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Button>
+
+                        <TextArea fx:id="responseArea" editable="false" promptText="La réponse de l'API sera affichée ici..."
+                                  prefHeight="120.0" prefWidth="400.0"
+                                  style="-fx-background-radius: 10; -fx-background-color: #f0f0f0;"/>
+                    </children>
+                    <padding>
+                        <Insets top="20.0" bottom="20.0" left="30.0" right="30.0"/>
+                    </padding>
+                </VBox>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>

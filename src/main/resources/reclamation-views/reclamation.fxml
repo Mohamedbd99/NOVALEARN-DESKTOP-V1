@@ -9,7 +9,7 @@
 <AnchorPane fx:id="mainContent" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.novalearn.controllers.ReclamationController">
     <children>
-        <BorderPane styleClass="gradient-background" stylesheets="@../alertStyles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <BorderPane styleClass="gradient-background" stylesheets="@../org/novalearn/alertStyles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <bottom>
                 <VBox  alignment="TOP_CENTER" spacing="10" BorderPane.alignment="BOTTOM_CENTER">
                     <children>
@@ -40,7 +40,7 @@
                     <children>
                         <ImageView fitHeight="110.0" fitWidth="306.0" layoutX="25.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../logooo.png" />
+                                <Image url="@../org/novalearn/logooo.png" />
                             </image>
                         </ImageView>
 

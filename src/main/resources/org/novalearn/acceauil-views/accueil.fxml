@@ -14,6 +14,18 @@
             <Button text="Cours / Exercice" onAction="#showCoursExercice"/>
             <Button text="Réclamation"     onAction="#showReclamation"/>
             <Button text="Quizzes"         onAction="#showQuizzes"/>
+            <Button onAction="#SohwBlogFront" text="Blogs" />
+            <Button onAction="#showCoursExercice" text="Cours / Exercice" />
+            <Button onAction="#showReclamationFront" text="Réclamation" />
+            <Button onAction="#showCoursExerciceAdmin" text="Exercice / Admin" />
+            <Button onAction="#showCoursAdmin" text="Cours / Admin" />
+            <Button onAction="#showGenre" text="Genre / Admin" />
+            <Button onAction="#showAReclamation" text="Reclamation / Admin" />
+            <Button onAction="#SohwAIcours" text="generer cours " />
+
+            <Button onAction="#SohwBlogAdmin" text="Blog/Admin" />
+            <Button onAction="#showMessagerie" text="Messagrie" />
+
         </ToolBar>
     </top>
 
