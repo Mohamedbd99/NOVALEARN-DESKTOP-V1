@@ -12,7 +12,7 @@ public class DatabaseConnection {
                     + "&allowPublicKeyRetrieval=true"
                     + "&serverTimezone=UTC";
     private static final String USER = "root";
-    private static final String PASSWORD = "root";
+    private static final String PASSWORD = "";  // Mot de passe vide par défaut
 
     /**
      * Établit la connexion à la base de données.

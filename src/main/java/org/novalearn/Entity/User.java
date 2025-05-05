@@ -41,7 +41,7 @@ public class User {
     private String nom;
 
     @Column(name = "num_tel", nullable = false)
-    private Integer numTel;
+    private Long numTel;
 
     @Column(name = "password", nullable = false)
     private String password;
@@ -64,6 +64,31 @@ public class User {
     @Column(name = "reset_token_expiry")
     private Instant resetTokenExpiry;
 
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive = true;  // Par défaut actif
+
+    // Constructeurs
+    public User() {
+        this.isVerified = false;
+        this.isActive = true;
+    }
+
+    public User(String nom, String prenom, String email, Long numTel, Integer age,
+                String genre, String specialite, String role, String password) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.numTel = numTel;
+        this.age = age;
+        this.genre = genre;
+        this.specialite = specialite;
+        this.role = role;
+        this.password = password;
+        this.isVerified = false;
+        this.isActive = true;
+    }
+
+    // Getters et Setters
     public Long getId() {
         return id;
     }
@@ -136,11 +161,11 @@ public class User {
         this.nom = nom;
     }
 
-    public Integer getNumTel() {
+    public Long getNumTel() {
         return numTel;
     }
 
-    public void setNumTel(Integer numTel) {
+    public void setNumTel(Long numTel) {
         this.numTel = numTel;
     }
 
@@ -198,6 +223,19 @@ public class User {
 
     public void setResetTokenExpiry(Instant resetTokenExpiry) {
         this.resetTokenExpiry = resetTokenExpiry;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    // 👇 Correction ici
+    public int isActive() {
+        return (this.isActive != null && this.isActive) ? 1 : 0;
     }
 
 }
