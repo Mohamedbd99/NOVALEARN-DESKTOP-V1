@@ -1,17 +1,25 @@
 package org.novalearn.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import org.novalearn.Entity.User;
+import org.novalearn.controllers.Quiz.QuizzesController;
 
 public class AccueilController {
     @FXML private StackPane contentPane;
+    private ObjectMapper objectMapper;
 
     @FXML
     public void initialize() {
-        // On startup, show the Accueil body (welcome panel)
-        showAccueilBody();
+               // we no longer know the user here; wait for setCurrentUser(...)
+                       this.objectMapper = new ObjectMapper();
+               clearState();
+           }
+
+    private void clearState() {
     }
 
     @FXML
@@ -31,7 +39,20 @@ public class AccueilController {
 
     @FXML
     private void showQuizzes() {
-        loadModule("quizzes-views/quizzes.fxml");
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/novalearn/quizzes-views/quizzes.fxml")
+            );
+            Pane module = loader.load();
+
+            // **Pass the currentUser along:**
+            QuizzesController qc = loader.getController();
+            qc.setCurrentUser(currentUser);
+
+            contentPane.getChildren().setAll(module);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadModule(String relativePath) {
@@ -42,6 +63,16 @@ public class AccueilController {
             contentPane.getChildren().setAll(module);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private User currentUser;
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+        if (user != null) {
+            System.out.println("🎯 AccueilController received user: " + user.getEmail() + " (ID: " + user.getId() + ")");
+        } else {
+            System.out.println("⚠️ AccueilController received null user!");
         }
     }
 }

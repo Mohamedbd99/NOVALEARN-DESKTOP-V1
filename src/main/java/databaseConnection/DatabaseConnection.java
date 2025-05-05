@@ -36,7 +36,7 @@ public class DatabaseConnection {
     public static Connection getConnection() {
         try {
             Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("Connexion établie avec succès.");
+            System.out.println("Connexion établie avec succès.$$");
             return conn;
         } catch (SQLException e) {
             System.err.println("Erreur lors de la connexion à la base de données : " + e.getMessage());

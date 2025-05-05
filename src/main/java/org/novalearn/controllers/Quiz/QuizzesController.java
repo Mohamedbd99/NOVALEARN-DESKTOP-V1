@@ -15,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.web.WebView;
+import org.novalearn.Entity.User;
 import org.novalearn.services.quiz.QuizService;
 import org.novalearn.MainApp;
 import java.awt.Desktop;
@@ -250,6 +251,18 @@ public class QuizzesController {
     private void showError(String m){ Platform.runLater(()->new Alert(Alert.AlertType.ERROR,m).showAndWait()); }
     private void showAlert(Alert.AlertType t,String m){ Platform.runLater(()->new Alert(t,m).showAndWait()); }
     private String capitalize(String s){ return s.isEmpty()?s:s.substring(0,1).toUpperCase()+s.substring(1); }
+
+    public void setCurrentUser(User user) {
+        if (user != null && user.getId() != null) {
+            // initialize the service with the real user ID
+            this.quizService = new QuizService(String.valueOf(user.getId()));
+            // reset any previous quiz UI state
+            clearState();
+            System.out.println("🎯 QuizService initialized for user ID: " + user.getId());
+        } else {
+            System.err.println("❌ Received null user or ID");
+        }
+    }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ResponseWrapper{ @JsonProperty("generated_json")private GeneratedJson gen; public GeneratedJson getGeneratedJson(){return gen;}public void setGeneratedJson(GeneratedJson g){this.gen=g;} }

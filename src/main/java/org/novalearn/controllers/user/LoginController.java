@@ -1,11 +1,16 @@
 package org.novalearn.controllers.user;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.novalearn.MainApp;
+import org.novalearn.controllers.AccueilController;
 import org.novalearn.services.quiz.FailedLoginService;
 import org.novalearn.services.quiz.UserService;
 import org.novalearn.Entity.User;
@@ -51,40 +56,45 @@ public class LoginController {
         }
 
         try {
-            // Vérifier si le compte est bloqué
             if (failedLoginService.isAccountLocked(email)) {
                 showAlert("Erreur", "Votre compte est temporairement verrouillé. Veuillez réessayer plus tard.", Alert.AlertType.ERROR);
                 return;
             }
 
-            // Authentifier l'utilisateur
             User user = userService.authenticate(email, password);
 
             if (user != null) {
-                // Réinitialiser les tentatives échouées après une connexion réussie
+                System.out.println("✅ Authenticated user: " + user.getEmail() + ", ID: " + user.getId());
                 failedLoginService.resetFailedAttempts(email);
 
-                // Vérifier l'état du compte
                 if (user.isActive() == 1) {
-                    // Sauvegarder les informations de connexion si "Se souvenir de moi" est coché
                     if (rememberMeCheckBox.isSelected()) {
                         Preferences prefs = Preferences.userNodeForPackage(LoginController.class);
                         prefs.put("rememberedEmail", email);
-                        prefs.put("rememberedPassword", password);  // Attention à la sécurité pour le mot de passe
+                        prefs.put("rememberedPassword", password); // Consider encryption
                     }
 
-                    // Rediriger vers la page appropriée en fonction du rôle de l'utilisateur
                     if ("admin".equalsIgnoreCase(user.getRole())) {
+                        System.out.println("Redirecting to Admin Dashboard");
                         MainApp.showAdminDashboard();
                     } else {
-                        MainApp.showAccueil();
+                        System.out.println("➡️ Redirecting to Accueil.fxml");
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/novalearn/acceauil-views/accueil.fxml"));
+                        Parent root = loader.load();
+
+                        AccueilController accueilController = loader.getController();
+                        accueilController.setCurrentUser(user);
+                        System.out.println("📦 Passed user to AccueilController: " + user.getEmail());
+
+                        Stage stage = (Stage) emailField.getScene().getWindow();
+                        stage.setScene(new Scene(root));
+                        stage.show();
                     }
                 } else {
-                    // Utilisateur désactivé : connexion refusée
                     showAlert("Erreur", "Votre compte est désactivé. Veuillez contacter l'administrateur.", Alert.AlertType.ERROR);
                 }
             } else {
-                // Enregistrer un échec de connexion
+                System.out.println("❌ Authentication failed for email: " + email);
                 failedLoginService.recordFailedAttempt(email);
                 showAlert("Erreur", "Email ou mot de passe incorrect.", Alert.AlertType.ERROR);
             }

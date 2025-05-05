@@ -31,6 +31,9 @@ public class User {
     @Column(name = "id_fils")
     private Integer idFils;
 
+    @Column(name = "verification_code")
+    private Integer verification_code;
+
     @Column(name = "isVerified", nullable = false)
     private Boolean isVerified = false;
 
@@ -74,7 +77,7 @@ public class User {
     }
 
     public User(String nom, String prenom, String email, Long numTel, Integer age,
-                String genre, String specialite, String role, String password) {
+                String genre, String specialite, String role, String password,String verification_code) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
@@ -86,6 +89,9 @@ public class User {
         this.password = password;
         this.isVerified = false;
         this.isActive = true;
+        this.verification_code = Integer.valueOf(verification_code);
+
+
     }
 
     // Getters et Setters

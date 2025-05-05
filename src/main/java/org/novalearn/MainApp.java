@@ -1,7 +1,6 @@
 package org.novalearn;
 
 
-import org.novalearn.database.DatabaseConnection;
 
 import databaseConnection.DatabaseConnection;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -13,7 +12,7 @@ import javafx.stage.Stage;
 
 import org.novalearn.controllers.user.VerifyEmailController;
 
-import com.stripe.Stripe;           // ← add this
+import com.stripe.Stripe;
 
 
 import java.sql.Connection;

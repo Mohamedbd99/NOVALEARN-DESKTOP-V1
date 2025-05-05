@@ -75,8 +75,8 @@
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
-            <artifactId>javafx-web</artifactId>
-            <version>23-ea+27</version>
+            <artifactId>javafx-web</artifactId> <!-- Fixed version -->
+            <version>${javafx.version}</version>
         </dependency>
 
     </dependencies>

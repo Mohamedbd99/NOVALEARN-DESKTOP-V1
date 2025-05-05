@@ -1,7 +1,8 @@
 package org.novalearn.services.quiz;
 
+import databaseConnection.DatabaseConnection;
 import org.novalearn.Entity.User;
-import org.novalearn.database.DatabaseConnection;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class UserService {
 
     public UserService() {
         cnx = DatabaseConnection.getConnection();
+
     }
 
     public User authenticate(String email, String password) throws SQLException {
