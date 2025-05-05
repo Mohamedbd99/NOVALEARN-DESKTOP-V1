@@ -15,6 +15,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import com.stripe.model.checkout.Session;
+import com.stripe.param.checkout.SessionCreateParams;
+import com.stripe.exception.StripeException;
+import java.sql.Statement;
+import java.sql.ResultSet;
 
 public class QuizService {
     private final String userId;
@@ -26,6 +31,23 @@ public class QuizService {
         this.httpClient = HttpClient.newHttpClient();
         this.objectMapper = new ObjectMapper()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
+    public boolean hasPurchased(String subject) throws SQLException {
+        String sql = """
+            SELECT 1
+              FROM novalearn.purchase
+             WHERE user_id = ?
+               AND subject = ?
+               AND status = 'paid'
+             LIMIT 1
+        """;
+        try (PreparedStatement ps = MainApp.getDbConnection().prepareStatement(sql)) {
+            ps.setLong(1, Long.parseLong(userId));
+            ps.setString(2, subject);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
     }
 
     public List<QuizzesController.QuizDTO> loadLocalQuizzes(String subject) throws SQLException {
@@ -45,6 +67,81 @@ public class QuizService {
             }
         }
         return list;
+    }
+    public Session createCheckoutSession(String subject)
+            throws StripeException, SQLException
+    {
+        // build the checkout session
+        SessionCreateParams params = SessionCreateParams.builder()
+                .setMode(SessionCreateParams.Mode.PAYMENT)
+                .setSuccessUrl("https://example.com/success?session_id={CHECKOUT_SESSION_ID}")
+                .setCancelUrl("https://example.com/cancel?session_id={CHECKOUT_SESSION_ID}")
+                .addLineItem(
+                        SessionCreateParams.LineItem.builder()
+                                .setQuantity(1L)
+                                .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
+                                        .setCurrency("usd")
+                                        .setUnitAmount(199L)
+                                        .setProductData(
+                                                SessionCreateParams.LineItem.PriceData.ProductData.builder()
+                                                        .setName("Quiz: " + subject)
+                                                        .build()
+                                        )
+                                        .build()
+                                ).build()
+                )
+                .build();
+
+        Session session = Session.create(params);
+
+        // persist a pending purchase — omit `id` so MySQL uses AUTO_INCREMENT
+        String insert = """
+            INSERT INTO novalearn.purchase
+              (user_id, subject, stripe_session_id, status)
+            VALUES(?, ?, ?, ?)
+        """;
+        try (PreparedStatement ps = MainApp.getDbConnection()
+                .prepareStatement(insert, Statement.RETURN_GENERATED_KEYS))
+        {
+            ps.setLong(1, Long.parseLong(userId));
+            ps.setString(2, subject);
+            ps.setString(3, session.getId());
+            ps.setString(4, "pending");
+            ps.executeUpdate();
+
+            // if you ever care about the newly generated id:
+            try (ResultSet gen = ps.getGeneratedKeys()) {
+                if (gen.next()) {
+                    long newId = gen.getLong(1);
+                    System.out.println("New purchase.id = " + newId);
+                }
+            }
+        }
+
+        return session;
+    }
+
+    public boolean confirmPurchase(String sessionId)
+            throws StripeException, SQLException
+    {
+        Session session = Session.retrieve(sessionId);
+        if ("paid".equals(session.getPaymentStatus())) {
+            String update = """
+                UPDATE novalearn.purchase
+                   SET status = 'paid',
+                       payment_intent_id = ?,
+                       amount = ?
+                 WHERE stripe_session_id = ?
+            """;
+            try (PreparedStatement ps = MainApp.getDbConnection().prepareStatement(update)) {
+                ps.setString(1, session.getPaymentIntent());
+                ps.setLong(2, session.getAmountTotal());
+                ps.setString(3, sessionId);
+                ps.executeUpdate();
+            }
+            return true;
+        }
+        return false;
     }
 
     public List<QuizzesController.QuestionDTO> loadQuestions(String quizId) throws SQLException {

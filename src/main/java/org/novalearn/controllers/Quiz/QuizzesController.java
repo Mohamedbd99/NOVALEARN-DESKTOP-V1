@@ -4,6 +4,7 @@ package org.novalearn.controllers.Quiz;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stripe.model.checkout.Session;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,8 +14,11 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.web.WebView;
 import org.novalearn.services.quiz.QuizService;
 import org.novalearn.MainApp;
+import java.awt.Desktop;
+import java.net.URI;
 
 import java.nio.file.Paths;
 import java.sql.PreparedStatement;
@@ -31,6 +35,7 @@ public class QuizzesController {
     @FXML private Rectangle overlay;
     @FXML private ProgressIndicator loader;
     @FXML private StackPane rootPane;
+    @FXML private WebView checkoutWebView;
 
     private QuizService quizService;
     private List<QuizDTO> currentQuizzes;
@@ -69,15 +74,95 @@ public class QuizzesController {
         clearState(); clearScoreOverlay(); showLoader();
         CompletableFuture.runAsync(() -> {
             try {
+                // 4.1 if not yet bought, show buy prompt
+                if (!quizService.hasPurchased(subject)) {
+                    Platform.runLater(() -> showPurchasePrompt(subject));
+                    return;
+                }
+                // 4.2 otherwise fall back to existing
                 List<QuizDTO> list = quizService.loadLocalQuizzes(subject);
-                currentQuizzes = list.isEmpty() ? quizService.fetchRemoteAndPersist(subject) : list;
+                currentQuizzes = list.isEmpty()
+                        ? quizService.fetchRemoteAndPersist(subject)
+                        : list;
                 Platform.runLater(() -> {
                     setupDifficultyFilters();
                     hideLoader();
                 });
             } catch (Exception ex) {
+                Platform.runLater(() -> { hideLoader(); showError("Failed: " + ex.getMessage()); });
+            }
+        });
+    }
+
+    private void showPurchasePrompt(String subject) {
+        hideLoader();
+        questionsContainer.getChildren().clear();
+        Label msg = new Label("You need to buy this quiz to get access:");
+        Button buy = new Button("💳 Buy Quiz");
+        buy.setOnAction(evt -> handlePurchase(subject));
+        questionsContainer.getChildren().addAll(msg, buy);
+    }
+    private void handlePurchase(String subject) {
+        showLoader();
+        CompletableFuture.runAsync(() -> {
+            try {
+                Session session = quizService.createCheckoutSession(subject);
+                String checkoutUrl = session.getUrl();
+                String stripeSessionId = session.getId();
+
                 Platform.runLater(() -> {
-                    hideLoader(); showError("Failed to load quizzes: " + ex.getMessage());
+                    hideLoader();
+                    // 1) show WebView
+                    checkoutWebView.setVisible(true);
+                    var engine = checkoutWebView.getEngine();
+                    engine.load(checkoutUrl);
+
+                    // 2) intercept navigation
+                    engine.locationProperty().addListener((obs, oldLoc, newLoc) -> {
+                        if (newLoc.startsWith("https://example.com/success")) {
+                            // extract session_id
+                            var uri = URI.create(newLoc);
+                            var sid = Arrays.stream(uri.getQuery().split("&"))
+                                    .filter(p -> p.startsWith("session_id="))
+                                    .map(p -> p.substring(11))
+                                    .findFirst().orElse(stripeSessionId);
+                            // hide WebView
+                            checkoutWebView.setVisible(false);
+                            // confirm purchase
+                            showLoader();
+                            CompletableFuture.runAsync(() -> {
+                                try {
+                                    boolean paid = quizService.confirmPurchase(sid);
+
+                                    // now switch back to JavaFX thread for any UI work
+                                    Platform.runLater(() -> {
+                                        hideLoader();
+                                        if (paid) {
+                                            loadQuizzes(subject);
+                                        } else {
+                                            showError("Payment was not confirmed.");
+                                        }
+                                    });
+
+                                } catch (Exception e) {
+                                    Platform.runLater(() -> {
+                                        hideLoader();
+                                        showError("Error confirming payment: " + e.getMessage());
+                                    });
+                                }
+                            });
+                        }
+                        else if (newLoc.startsWith("https://example.com/cancel")) {
+                            // user cancelled
+                            checkoutWebView.setVisible(false);
+                            showError("Payment cancelled.");
+                        }
+                    });
+                });
+            } catch (Exception ex) {
+                Platform.runLater(() -> {
+                    hideLoader();
+                    showError("Purchase failed: " + ex.getMessage());
                 });
             }
         });
