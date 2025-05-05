@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.novalearn.controllers.ExerciceAdmin">
+<children>
+    <BorderPane styleClass="gradient-background" stylesheets="@../alertStyles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <left>
+            <VBox prefHeight="825.0" prefWidth="201.0" styleClass="container" stylesheets="@../alertStyles.css" BorderPane.alignment="CENTER">
+                <children>
+                    <ImageView fitHeight="116.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../logooo.png" />
+                        </image>
+                    </ImageView>
+                    <Button layoutX="67.0" layoutY="361.0" mnemonicParsing="false" onAction="#updateCours" prefHeight="32.0" prefWidth="251.0" style="-fx-background-color: #b8c3da; -fx-background-radius: 20 20 20 20;" text="Modifier" textFill="#174090">
+
+                    </Button>
+
+                    <Button layoutX="67.0" layoutY="417.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="201.0" style="-fx-background-color: #b8c3da; -fx-background-radius: 20 20 20 20;" text="logout" textFill="#14274a">
+
+
+                    </Button>
+
+
+                </children>
+            </VBox>
+        </left>
+        <center>
+            <Pane BorderPane.alignment="CENTER">
+                <children>
+                    <VBox cacheShape="false" centerShape="false" layoutX="603.0" layoutY="89.0" prefHeight="233.0" prefWidth="170.0" scaleShape="false">
+                        <children>
+                            <Label prefHeight="10.0" prefWidth="76.0" text="Titre" textFill="#ddc9c9">
+                                <font>
+                                    <Font name="System Bold" size="20.0" />
+                                </font></Label>
+                            <Label text="Description" textFill="#ddc9c9">
+                                <font>
+                                    <Font name="System Bold" size="20.0" />
+                                </font></Label>
+                            <Label text="Course" textFill="#ddc9c9">
+                                <font>
+                                    <Font name="System Bold" size="20.0" />
+                                </font></Label>
+                            <Label text="Date Creation" textFill="#ddc9c9">
+                                <font>
+                                    <Font name="System Bold" size="20.0" />
+                                </font></Label>
+
+                        </children>
+                        <padding>
+                            <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+                        </padding>
+                        <opaqueInsets>
+                            <Insets />
+                        </opaqueInsets>
+                    </VBox>
+                    <Button layoutX="781.0" layoutY="338.0" mnemonicParsing="false" onAction="#addCours" prefHeight="23.0" prefWidth="259.0" style="-fx-background-color: #c28ee3; -fx-background-radius: 20 20 20 20;" text="Ajouter Exercice" textFill="#f9fafc">
+                        <font>
+                            <Font name="System Bold Italic" size="15.0" />
+                        </font></Button>
+
+                    <VBox layoutX="753.0" layoutY="89.0" prefHeight="246.0" prefWidth="344.0">
+                        <children>
+                            <TextField fx:id="titreField" prefHeight="35.0" prefWidth="169.0" style="-fx-background-radius: 20 20 20 20; -fx-background-color: #c1c9d6;" />
+                            <TextField fx:id="descriptionField" prefHeight="35.0" prefWidth="169.0" style="-fx-background-radius: 20 20 20 20; -fx-background-color: #c1c9d6;" />
+                            <ComboBox fx:id="cmbo" prefHeight="25.0" prefWidth="141.0" />
+                            <DatePicker fx:id="createdField" layoutX="140.0" layoutY="201.0" prefHeight="26.0" prefWidth="150.0" />
+                        </children>
+                        <padding>
+                            <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+                        </padding>
+                    </VBox>
+                    <VBox fx:id="rootPane" layoutX="11.0" layoutY="81.0" prefHeight="295.0" prefWidth="573.0">
+                        <children>
+
+                            <ListView fx:id="coursListView" prefHeight="294.0" prefWidth="573.0" style="-fx-background-radius: 20 20 20 20;" />
+                        </children>
+
+                    </VBox>
+                    <Label layoutX="182.0" layoutY="45.0" prefHeight="36.0" prefWidth="261.0" text="La List des Exercices" textFill="#f2c2f5">
+                        <font>
+                            <Font name="System Bold Italic" size="25.0" />
+                        </font>
+                    </Label>
+                    <Line endX="236.5" endY="-383.0" layoutX="355.0" layoutY="398.0" startX="236.5" startY="-19.0" />
+                    <Label layoutX="787.0" layoutY="45.0" prefHeight="36.0" prefWidth="261.0" text="Ajouter Exercice" textFill="#f2c2f5">
+                        <font>
+                            <Font name="System Bold Italic" size="25.0" />
+                        </font>
+                    </Label>
+                </children>
+            </Pane>
+        </center>
+
+    </BorderPane>
+</children>
+</AnchorPane>

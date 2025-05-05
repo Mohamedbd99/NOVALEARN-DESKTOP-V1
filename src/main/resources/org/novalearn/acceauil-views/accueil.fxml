@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.novalearn.controllers.AccueilController">
+
+    <top>
+        <ToolBar>
+            <Button onAction="#showAccueilBody" text="Accueil" />
+            <Button onAction="#SohwBlogFront" text="Blogs" />
+            <Button onAction="#showCoursExercice" text="Cours / Exercice" />
+            <Button onAction="#showReclamationFront" text="Réclamation" />
+            <Button onAction="#showQuizzes" text="Quizzes" />
+            <Button onAction="#showCoursExerciceAdmin" text="Exercice / Admin" />
+            <Button onAction="#showCoursAdmin" text="Cours / Admin" />
+            <Button onAction="#showGenre" text="Genre / Admin" />
+            <Button onAction="#showAReclamation" text="Reclamation / Admin" />
+            <Button onAction="#SohwAIcours" text="generer cours " />
+
+            <Button onAction="#SohwBlogAdmin" text="Blog/Admin" />
+            <Button onAction="#showMessagerie" text="Messagrie" />
+
+
+
+        </ToolBar>
+    </top>
+
+    <center>
+        <StackPane fx:id="contentPane" />
+    </center>
+</BorderPane>
