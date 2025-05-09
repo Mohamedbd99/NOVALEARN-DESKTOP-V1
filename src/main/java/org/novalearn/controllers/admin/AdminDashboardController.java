@@ -4,17 +4,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 import javafx.geometry.Insets;
 import org.novalearn.Entity.User;
 import org.novalearn.MainApp;
 import org.novalearn.services.quiz.UserService;
-
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,10 +26,18 @@ public class AdminDashboardController {
     @FXML private ListView<User> usersListView;
     @FXML private ComboBox<String> roleFilterComboBox;
     @FXML private TextField searchField;
+    @FXML private Button btnCoursAdmin;
+    @FXML private Button btnExerciceAdmin;
+    @FXML private Button btnGenreAdmin;
+    @FXML private Button btnReclamationAdmin;
+    @FXML private Button btnBlogAdmin;
+    @FXML private StackPane contentPane;
+    @FXML private VBox sidebarContainer;
 
     private final UserService userService;
     private ObservableList<User> usersList;
     private FilteredList<User> filteredUsers;
+    private User currentUser;
 
     public AdminDashboardController() {
         this.userService = new UserService();
@@ -49,20 +56,37 @@ public class AdminDashboardController {
                     setText(null);
                     setGraphic(null);
                 } else {
-                    HBox container = new HBox(10);
+                    HBox container = new HBox(20);
                     Label infoLabel = new Label(String.format("%s %s (%s) - %s",
                             user.getNom(), user.getPrenom(), user.getEmail(), user.getRole()));
+                    infoLabel.setStyle("-fx-font-size: 14px;");
                     HBox.setHgrow(infoLabel, Priority.ALWAYS);
 
-                    Button editButton = new Button("Modifier");
-                    Button deleteButton = new Button("Supprimer");
-                    Button activateDeactivateButton = new Button(user.getIsActive() ? "Désactiver" : "Activer");
+                    MenuButton actionsButton = new MenuButton("Select Actions");
+                    actionsButton.setStyle(
+                            "-fx-background-color: #9370DB; " +
+                                    "-fx-text-fill: white; " +
+                                    "-fx-font-weight: bold; " +
+                                    "-fx-background-radius: 20; " +
+                                    "-fx-padding: 8 16;"
+                    );
 
-                    editButton.setOnAction(e -> onEditUserClicked(user));
-                    deleteButton.setOnAction(e -> onDeleteUserClicked(user));
-                    activateDeactivateButton.setOnAction(e -> onActivateDeactivateUserClicked(user));
+                    MenuItem editItem = new MenuItem("Modifier");
+                    MenuItem deleteItem = new MenuItem("Supprimer");
+                    String toggleText = user.getIsActive() ? "Désactiver" : "Activer";
+                    MenuItem toggleItem = new MenuItem(toggleText);
 
-                    container.getChildren().addAll(infoLabel, editButton, deleteButton, activateDeactivateButton);
+                    editItem.setOnAction(e -> onEditUserClicked(user));
+                    deleteItem.setOnAction(e -> onDeleteUserClicked(user));
+                    toggleItem.setOnAction(e -> onActivateDeactivateUserClicked(user));
+
+                    actionsButton.getItems().addAll(editItem, deleteItem, toggleItem);
+
+                    VBox actionContainer = new VBox(actionsButton);
+                    actionContainer.setPadding(new Insets(5));
+
+                    container.getChildren().addAll(infoLabel, actionContainer);
+
                     setGraphic(container);
                 }
             }
@@ -72,6 +96,68 @@ public class AdminDashboardController {
 
         roleFilterComboBox.setOnAction(e -> filterUsers());
         searchField.textProperty().addListener((obs, oldVal, newVal) -> filterUsers());
+    }
+
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+        if (user != null) {
+            System.out.println("🎯 AccueilController received user: "
+                    + user.getEmail() + " (ID: " + user.getId() + ")");
+            if (!"admin".equalsIgnoreCase(user.getRole())) {
+                if (btnReclamationAdmin != null) {
+                    btnReclamationAdmin.setVisible(false);
+                    btnReclamationAdmin.setManaged(false);
+                }
+                if (btnCoursAdmin != null) {
+                    btnCoursAdmin.setVisible(false);
+                    btnCoursAdmin.setManaged(false);
+                }
+                if (btnExerciceAdmin != null) {
+                    btnExerciceAdmin.setVisible(false);
+                    btnExerciceAdmin.setManaged(false);
+                }
+                if (btnGenreAdmin != null) {
+                    btnGenreAdmin.setVisible(false);
+                    btnGenreAdmin.setManaged(false);
+                }
+                if (btnBlogAdmin != null) {
+                    btnBlogAdmin.setVisible(false);
+                    btnBlogAdmin.setManaged(false);
+                }
+            }
+        } else {
+            System.out.println("⚠️ AccueilController received null user!");
+        }
+    }
+
+    @FXML
+    private void showCoursAdmin() {
+        loadModule0("cours_views/CoursExercieceDash.fxml");
+    }
+
+    @FXML
+    private void showCoursExerciceAdmin() {
+        loadModule0("exercice-views/exerciceAdmin.fxml");
+    }
+
+    @FXML
+    private void SohwBlogAdmin() {
+        loadModule0("blog-views/blog-admin.fxml");
+    }
+
+    private void loadModule0(String relativePath) {
+        try {
+            Pane module = FXMLLoader.load(
+                    getClass().getResource("/org/novalearn/" + relativePath)
+            );
+            if (contentPane != null) {
+                contentPane.getChildren().setAll(module);
+            } else {
+                System.err.println("⚠️ contentPane is null! Cannot load module: " + relativePath);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadUsers() {
@@ -102,14 +188,9 @@ public class AdminDashboardController {
     }
 
     @FXML
-    private void onSearchClicked() {
-        filterUsers();
-    }
-
-    @FXML
     private void onAddUserClicked() {
         try {
-            MainApp.showAdminRegister();  // Ouvre la page pour ajouter un utilisateur
+            MainApp.showAdminRegister();
         } catch (Exception e) {
             showAlert("Erreur", "Erreur lors de l'ouverture du formulaire d'ajout", Alert.AlertType.ERROR);
             e.printStackTrace();
@@ -287,7 +368,26 @@ public class AdminDashboardController {
         alert.setContentText(content);
         alert.showAndWait();
     }
-
-    public void updateGraphData(double xValue, double yValue) {
+    private void loadModule(String relativePath) {
+        try {
+            Pane module = FXMLLoader.load(
+                    getClass().getResource("/org/novalearn/" + relativePath)
+            );
+            contentPane.getChildren().setAll(module);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+    private void loadModule1(String relativePath) {
+        try {
+            Pane module = FXMLLoader.load(
+                    getClass().getResource("/org/novalearn/" + relativePath)
+            );
+            contentPane.getChildren().setAll(module);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

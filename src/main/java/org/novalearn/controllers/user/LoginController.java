@@ -87,8 +87,13 @@ public class LoginController {
                         System.out.println("📦 Passed user to AccueilController: " + user.getEmail());
 
                         Stage stage = (Stage) emailField.getScene().getWindow();
-                        stage.setScene(new Scene(root));
+                        Scene scene = new Scene(root, 1600, 800); // Set fixed width and height
+                        stage.setScene(scene);
+                        stage.setWidth(1600);   // Optional, but ensures window size
+                        stage.setHeight(800);  // Optional, ensures window size
+                        stage.setResizable(false); // Optional: prevent resizing
                         stage.show();
+
                     }
                 } else {
                     showAlert("Erreur", "Votre compte est désactivé. Veuillez contacter l'administrateur.", Alert.AlertType.ERROR);

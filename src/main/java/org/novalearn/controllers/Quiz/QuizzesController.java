@@ -258,6 +258,7 @@ public class QuizzesController {
             this.quizService = new QuizService(String.valueOf(user.getId()));
             // reset any previous quiz UI state
             clearState();
+
             System.out.println("🎯 QuizService initialized for user ID: " + user.getId());
         } else {
             System.err.println("❌ Received null user or ID");

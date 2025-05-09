@@ -7,25 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.sql.*;
-import java.time.Instant;
 
 
 
 
 import java.security.MessageDigest;
-import java.security.SecureRandom;
 import java.math.BigInteger;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.TableView;
-import javafx.stage.Stage;
 import java.util.Random;
 
 public class UserService {

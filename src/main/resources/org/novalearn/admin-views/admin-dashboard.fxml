@@ -1,54 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-<VBox spacing="20" alignment="TOP_CENTER"
-      style="-fx-background-color: #F5F5F5;"
-      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.novalearn.controllers.admin.AdminDashboardController">
 
-    <padding>
-        <Insets top="30" right="30" bottom="30" left="30"/>
-    </padding>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.novalearn.controllers.admin.AdminDashboardController"
+            style="-fx-background-color: #f4f4f4; -fx-padding: 20;">
 
-    <!-- Titre + Déconnexion -->
-    <HBox spacing="10" alignment="CENTER_LEFT"
-          style="-fx-background-color: #4B0082; -fx-padding: 10; -fx-background-radius: 10;">
-        <Label text="Dashboard Administrateur"
-               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
-        <Region HBox.hgrow="ALWAYS"/>
-        <Button text="Déconnexion"
-                onAction="#onLogoutClicked"
-                style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-weight: bold; -fx-background-radius: 20;"/>
-    </HBox>
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Dashboard Admin"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Déconnexion" onAction="#onLogoutClicked"
+                    style="-fx-background-color: #ff4d4d; -fx-text-fill: white; -fx-background-radius: 20;"/>
+        </HBox>
+    </top>
 
-    <!-- Recherche -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <ComboBox fx:id="roleFilterComboBox" promptText="Filtrer par rôle"
-                  style="-fx-background-radius: 20; -fx-background-color: white; -fx-pref-width: 150px;"/>
-        <TextField fx:id="searchField" promptText="Rechercher..."
-                   style="-fx-background-radius: 20; -fx-background-color: white; -fx-pref-width: 300px;"
-                   HBox.hgrow="ALWAYS"/>
-        <Button text="Rechercher"
-                onAction="#onSearchClicked"
-                style="-fx-background-color: #4B0082; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20;"/>
-    </HBox>
+    <left>
+        <VBox fx:id="sidebarContainer"
+              style="-fx-background-color: #ddd; -fx-padding: 10; -fx-spacing: 10;">
+            <!-- tes boutons ici -->
+            <Button fx:id="btnCoursAdmin" text="Cours Admin" onAction="#showCoursAdmin" style="-fx-text-fill: white;"/>
+            <Button fx:id="btnExerciceAdmin" text="Exercice Admin" onAction="#showCoursExerciceAdmin" style="-fx-text-fill: white;"/>
+            <Button fx:id="btnBlogAdmin" text="Blogs Admin" onAction="#SohwBlogAdmin" style="-fx-text-fill: white;"/>
+        </VBox>
+    </left>
 
-    <!-- Liste des utilisateurs -->
-    <ListView fx:id="usersListView" VBox.vgrow="ALWAYS"
-              style="-fx-background-color: white; -fx-border-color: #DDD; -fx-border-radius: 10; -fx-background-radius: 10;">
-        <placeholder>
-            <Label text="Aucun utilisateur trouvé"
-                   style="-fx-text-fill: grey; -fx-font-style: italic;"/>
-        </placeholder>
-    </ListView>
 
-    <!-- Boutons en bas -->
-    <HBox spacing="15" alignment="CENTER_RIGHT">
-        <Button text="Ajouter un utilisateur" onAction="#onAddUserClicked"
-                style="-fx-background-color: #32CD32; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20;"/>
-        <Button text="Exporter en CSV" onAction="#onExportClicked"
-                style="-fx-background-color: #1E90FF; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20;"/>
-    </HBox>
+    <center>
+        <VBox spacing="15" style="-fx-padding: 10;">
+            <HBox spacing="10">
+                <TextField fx:id="searchField" promptText="Rechercher..."
+                           style="-fx-background-radius: 20; -fx-padding: 8;"/>
+                <ComboBox fx:id="roleFilterComboBox"
+                          style="-fx-background-radius: 20; -fx-padding: 8;"/>
+                <Button text="Ajouter un utilisateur" onAction="#onAddUserClicked"
+                        style="-fx-background-color: #4B0082; -fx-text-fill: white; -fx-background-radius: 20;"/>
+                <Button text="Exporter CSV" onAction="#onExportClicked"
+                        style="-fx-background-color: #0073e6; -fx-text-fill: white; -fx-background-radius: 20;"/>
+            </HBox>
 
-</VBox>
+            <ListView fx:id="usersListView"
+                      style="-fx-background-color: white; -fx-border-color: #DDD; -fx-border-radius: 10; -fx-background-radius: 10;"/>
+        </VBox>
+    </center>
+
+</BorderPane>

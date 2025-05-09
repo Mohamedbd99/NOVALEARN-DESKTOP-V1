@@ -3,23 +3,53 @@ package org.novalearn.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import org.novalearn.Entity.User;
+import org.novalearn.MainApp;
 import org.novalearn.controllers.Quiz.QuizzesController;
 
-import java.io.IOException;
+import javafx.animation.TranslateTransition;
+import javafx.util.Duration;
+import javafx.scene.layout.VBox;
+
 
 public class AccueilController {
     @FXML private StackPane contentPane;
     private ObjectMapper objectMapper;
     private User currentUser;
+    @FXML private Button btnCoursAdmin;
+    @FXML private Button btnExerciceAdmin;
+    @FXML private Button btnGenreAdmin;
+    @FXML private Button btnReclamationAdmin;
+    @FXML private Button btnBlogAdmin;
+    @FXML private Button btnAIcours;
+    @FXML private Button btnQuiz;
 
+    @FXML private VBox sideMenu;
+    private boolean isMenuOpen = false;
+
+    @FXML
+    private void toggleMenu() {
+        TranslateTransition transition = new TranslateTransition(Duration.millis(300), sideMenu);
+        if (isMenuOpen) {
+            transition.setToX(-200);  // cache vers la gauche
+            transition.setOnFinished(e -> sideMenu.setVisible(false));
+        } else {
+            sideMenu.setVisible(true);
+            transition.setToX(0);  // affiche sur l’écran
+        }
+        transition.play();
+        isMenuOpen = !isMenuOpen;
+    }
     @FXML
     public void initialize() {
         // we no longer know the user here; wait for setCurrentUser(...)
         this.objectMapper = new ObjectMapper();
         clearState();
+
     }
 
     private void clearState() {
@@ -30,6 +60,24 @@ public class AccueilController {
     private void showAccueilBody() {
         loadModule("acceauil-views/accueil_body.fxml");
     }
+
+    @FXML
+    private void onLogoutClicked() {
+        try {
+            MainApp.showLogin();
+        } catch (Exception e) {
+            showAlert("Erreur", "Erreur lors de la déconnexion", Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
+    }
+    private void showAlert(String title, String content, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
 
     @FXML
     private void showQuizzes() {
@@ -44,6 +92,7 @@ public class AccueilController {
             qc.setCurrentUser(currentUser);
 
             contentPane.getChildren().setAll(module);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -121,6 +170,53 @@ public class AccueilController {
         if (user != null) {
             System.out.println("🎯 AccueilController received user: "
                     + user.getEmail() + " (ID: " + user.getId() + ")");
+            if (user != null && !"admin".equalsIgnoreCase(user.getRole())) {
+
+                if (btnReclamationAdmin != null) {
+                    btnReclamationAdmin.setVisible(false);
+                    btnReclamationAdmin.setManaged(false);
+                }
+                if (btnAIcours != null) {
+                    btnAIcours.setVisible(false);
+                    btnAIcours.setManaged(false);
+                }
+            }
+
+
+            if (user != null && !"Enseignant".equalsIgnoreCase(user.getRole())) {
+                if (btnCoursAdmin != null) {
+                    btnCoursAdmin.setVisible(false);
+                    btnCoursAdmin.setManaged(false);
+                }
+                if (btnExerciceAdmin != null) {
+                    btnExerciceAdmin.setVisible(false);
+                    btnExerciceAdmin.setManaged(false);
+                }
+                if (btnGenreAdmin != null) {
+                    btnGenreAdmin.setVisible(false);
+                    btnGenreAdmin.setManaged(false);
+                }
+                if (btnAIcours != null) {
+                    btnAIcours.setVisible(false);
+                    btnAIcours.setManaged(false);
+                }
+            }
+            if (user != null && !"Étudiant".equalsIgnoreCase(user.getRole())) {
+                if (btnQuiz != null) {
+                    btnQuiz.setVisible(false);
+                    btnQuiz.setManaged(false);
+                }
+
+            }
+
+            if (user != null && !"Médecin".equalsIgnoreCase(user.getRole())) {
+                if (btnBlogAdmin != null) {
+                    btnBlogAdmin.setVisible(false);
+                    btnBlogAdmin.setManaged(false);
+                }
+
+            }
+
         } else {
             System.out.println("⚠️ AccueilController received null user!");
         }
