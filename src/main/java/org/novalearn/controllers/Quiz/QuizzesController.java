@@ -24,6 +24,7 @@ import java.net.URI;
 import java.nio.file.Paths;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -233,21 +234,72 @@ public class QuizzesController {
         btnSubmit.setOnAction(e->handleSubmit(groups,questions));
     }
 
-    private void handleSubmit(ToggleGroup[] groups,List<QuestionDTO> questions){
-        for(ToggleGroup tg:groups) if(tg.getSelectedToggle()==null){ showAlert(Alert.AlertType.WARNING,"Answer all"); return; }
-        int score=0; List<Map<String,String>> resp=new ArrayList<>();
-        for(int i=0;i<questions.size();i++){ QuestionDTO q=questions.get(i);
-            String c=((RadioButton)groups[i].getSelectedToggle()).getText().substring(0,1).toLowerCase();
-            if(c.equalsIgnoreCase(q.getCorrection())) score++;
-            resp.add(Map.of("questionId",q.getQuestionId(),"answer",c)); }
-        try(PreparedStatement ps=MainApp.getDbConnection()
-                .prepareStatement("INSERT INTO novalearn.quiz_submission(id,responses,score,submitted_at,quiz_id)VALUES(?,?,?,?,?)")){
-            ps.setLong(1,Instant.now().toEpochMilli());ps.setString(2,objectMapper.writeValueAsString(resp));
-            ps.setInt(3,score);ps.setTimestamp(4,java.sql.Timestamp.from(Instant.now()));ps.setString(5,currentQuizId);ps.executeUpdate();
-            showAlert(Alert.AlertType.INFORMATION,"Scored "+score+" of "+questions.size());
-        }catch(Exception ex){ showError("Submit failed: "+ex.getMessage()); }
-    }
+    private void handleSubmit(ToggleGroup[] groups, List<QuestionDTO> questions) {
+        // 1) Make sure every question is answered
+        for (ToggleGroup tg : groups) {
+            if (tg.getSelectedToggle() == null) {
+                showAlert(Alert.AlertType.WARNING, "Please answer all questions.");
+                return;
+            }
+        }
 
+        // 2) Compute score and build response payload
+        int score = 0;
+        List<Map<String, String>> resp = new ArrayList<>();
+
+        for (int i = 0; i < questions.size(); i++) {
+            QuestionDTO q = questions.get(i);
+
+            // a/b/c letter
+            String letter = ((RadioButton) groups[i].getSelectedToggle())
+                    .getText()
+                    .substring(0, 1)
+                    .toLowerCase();
+
+            // map letter → the chosen option’s text
+            String selectedText;
+            switch (letter) {
+                case "a": selectedText = q.getA(); break;
+                case "b": selectedText = q.getB(); break;
+                case "c": selectedText = q.getC(); break;
+                default:
+                    selectedText = "";
+            }
+
+            // compare that text against the correction field
+            if (selectedText.equals(q.getCorrection())) {
+                score++;
+            }
+
+            // for storing in the DB you can still keep the letter
+            resp.add(Map.of(
+                    "questionId", q.getQuestionId(),
+                    "answer",     letter
+            ));
+        }
+
+        // 3) Persist into quiz_submission (id is AUTO_INCREMENT)
+        String insert = """
+        INSERT INTO novalearn.quiz_submission
+           (quiz_id, responses, score, submitted_at)
+        VALUES (?, ?, ?, ?)
+        """;
+
+        try (PreparedStatement ps = MainApp.getDbConnection().prepareStatement(insert)) {
+            ps.setString(1, currentQuizId);
+            ps.setString(2, objectMapper.writeValueAsString(resp));
+            ps.setInt   (3, score);
+            ps.setTimestamp(4, Timestamp.from(Instant.now()));
+            ps.executeUpdate();
+
+            showAlert(
+                    Alert.AlertType.INFORMATION,
+                    "You scored " + score + " out of " + questions.size()
+            );
+        } catch (Exception ex) {
+            showError("Submit failed: " + ex.getMessage());
+        }
+    }
     private void showError(String m){ Platform.runLater(()->new Alert(Alert.AlertType.ERROR,m).showAndWait()); }
     private void showAlert(Alert.AlertType t,String m){ Platform.runLater(()->new Alert(t,m).showAndWait()); }
     private String capitalize(String s){ return s.isEmpty()?s:s.substring(0,1).toUpperCase()+s.substring(1); }

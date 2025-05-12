@@ -32,7 +32,54 @@ public class QuizService {
         this.objectMapper = new ObjectMapper()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
-    public boolean hasPurchased(String subject) throws SQLException {
+    public int calculateScore(String quizId, Map<String,String> userAnswers) throws SQLException {
+        String sql = """
+            SELECT question_id, correction, a, b, c
+              FROM novalearn.question
+             WHERE quiz_id = ?
+        """;
+
+        int score = 0;
+        try (PreparedStatement ps = MainApp.getDbConnection()
+                .prepareStatement(sql)) {
+            ps.setString(1, quizId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String qid       = rs.getString("question_id");
+                    String correct   = rs.getString("correction");
+                    String optionA   = rs.getString("a");
+                    String optionB   = rs.getString("b");
+                    String optionC   = rs.getString("c");
+
+                    // What the user chose for this question (letter "a","b","c")
+                    String chosenLetter = userAnswers.get(qid);
+                    if (chosenLetter == null) {
+                        // user skipped this question
+                        continue;
+                    }
+
+                    // Map the letter to the actual text
+                    String selectedText;
+                    switch (chosenLetter.toLowerCase()) {
+                        case "a": selectedText = optionA; break;
+                        case "b": selectedText = optionB; break;
+                        case "c": selectedText = optionC; break;
+                        default:  selectedText = ""; break;
+                    }
+
+                    // Compare and increment
+                    if (selectedText.equals(correct)) {
+                        score++;
+                    }
+                }
+            }
+        }
+
+        return score;
+    }
+
+
+public boolean hasPurchased(String subject) throws SQLException {
         String sql = """
             SELECT 1
               FROM novalearn.purchase

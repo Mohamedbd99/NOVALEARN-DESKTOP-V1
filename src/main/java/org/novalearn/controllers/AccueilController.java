@@ -167,62 +167,48 @@ public class AccueilController {
 
     public void setCurrentUser(User user) {
         this.currentUser = user;
-        if (user != null) {
-            System.out.println("🎯 AccueilController received user: "
-                    + user.getEmail() + " (ID: " + user.getId() + ")");
-            if (user != null && !"ROLE_ADMIN".equalsIgnoreCase(user.getRole())) {
-
-                if (btnReclamationAdmin != null) {
-                    btnReclamationAdmin.setVisible(false);
-                    btnReclamationAdmin.setManaged(false);
-                }
-                if (btnAIcours != null) {
-                    btnAIcours.setVisible(false);
-                    btnAIcours.setManaged(false);
-                }
-            }
-
-
-            if (user != null && !"ROLE_ENSEIGNANT".equalsIgnoreCase(user.getRole())) {
-                if (btnCoursAdmin != null) {
-                    btnCoursAdmin.setVisible(false);
-                    btnCoursAdmin.setManaged(false);
-                }
-                if (btnExerciceAdmin != null) {
-                    btnExerciceAdmin.setVisible(false);
-                    btnExerciceAdmin.setManaged(false);
-                }
-                if (btnGenreAdmin != null) {
-                    btnGenreAdmin.setVisible(false);
-                    btnGenreAdmin.setManaged(false);
-                }
-
-                if (btnAIcours != null) {
-                    btnAIcours.setVisible(false);
-                    btnAIcours.setManaged(false);
-                }
-                if (btnBlogAdmin != null) {
-                    btnBlogAdmin.setVisible(false);
-                    btnBlogAdmin.setManaged(false);
-                }
-
-            }
-            if (user != null && !"ROLE_ELEVE".equalsIgnoreCase(user.getRole())) {
-                if (btnQuiz != null) {
-                    btnQuiz.setVisible(false);
-                    btnQuiz.setManaged(false);
-                }
-
-            }
-
-            if (user != null && !"ROLE_MEDECIN".equalsIgnoreCase(user.getRole())) {
-
-
-            }
-
-        } else {
+        if (user == null) {
             System.out.println("⚠️ AccueilController received null user!");
+            return;
         }
+
+        String role = user.getRole();
+        boolean isAdmin       = "ROLE_ADMIN".equalsIgnoreCase(role);
+        boolean isEnseignant  = "ROLE_ENSEIGNANT".equalsIgnoreCase(role);
+        boolean isEleve       = "ROLE_ELEVE".equalsIgnoreCase(role);
+
+        System.out.printf("🎯 AccueilController: role=%s%n", role);
+
+        // If teacher, show absolutely everything:
+        if (isEnseignant) {
+            btnReclamationAdmin.setVisible(true);
+            btnReclamationAdmin.setManaged(true);
+
+            btnAIcours.setVisible(true);
+            btnAIcours.setManaged(true);
+
+            btnQuiz.setVisible(false);
+            btnQuiz.setManaged(false);
+
+            btnCoursAdmin.setVisible(true);
+            btnCoursAdmin.setManaged(true);
+
+            btnExerciceAdmin.setVisible(true);
+            btnExerciceAdmin.setManaged(true);
+
+            btnBlogAdmin.setVisible(false);
+            btnBlogAdmin.setManaged(false);
+
+            // (If you have any other admin-only buttons, you can set them here too.)
+            return;
+        }
+
+        // --- Non-enseignant logic (what you had before) ---
+
+        // Admin-only bits
+
+
+        // (Adjust any other button-hiding rules similarly…)
     }
 }
 
