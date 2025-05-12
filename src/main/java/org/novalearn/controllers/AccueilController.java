@@ -196,10 +196,16 @@ public class AccueilController {
                     btnGenreAdmin.setVisible(false);
                     btnGenreAdmin.setManaged(false);
                 }
+
                 if (btnAIcours != null) {
                     btnAIcours.setVisible(false);
                     btnAIcours.setManaged(false);
                 }
+                if (btnBlogAdmin != null) {
+                    btnBlogAdmin.setVisible(false);
+                    btnBlogAdmin.setManaged(false);
+                }
+
             }
             if (user != null && !"ROLE_ELEVE".equalsIgnoreCase(user.getRole())) {
                 if (btnQuiz != null) {
@@ -209,7 +215,7 @@ public class AccueilController {
 
             }
 
-            if (user != null && !"ROLE_MEDECIN ".equalsIgnoreCase(user.getRole())) {
+            if (user != null && !"ROLE_MEDECIN".equalsIgnoreCase(user.getRole())) {
 
 
             }

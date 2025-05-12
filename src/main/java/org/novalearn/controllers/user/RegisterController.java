@@ -29,9 +29,20 @@ public class RegisterController {
 
     @FXML
     public void initialize() {
-        // Initialiser les ComboBox
         genreComboBox.getItems().addAll("Homme", "Femme", "Autre");
-        roleComboBox.getItems().addAll("ROLE_ELEVE", "ROLE_ENSEIGNANT", "ROLE_MEDECIN ","ROLE_ADMIN");
+        roleComboBox.getItems().addAll("ROLE_ELEVE", "ROLE_ENSEIGNANT", "ROLE_MEDECIN", "ROLE_ADMIN");
+
+        // Par défaut, on cache le champ spécialité
+        specialiteField.setVisible(false);
+        specialiteField.setDisable(true);
+
+        // Dès que l’on change de rôle…
+        roleComboBox.valueProperty().addListener((obs, oldRole, newRole) -> {
+            boolean isMedecin = "ROLE_MEDECIN".equals(newRole);
+            // 1) afficher ou cacher le champ spécialité
+            specialiteField.setVisible(isMedecin);
+            specialiteField.setDisable(!isMedecin);
+        });
     }
 
     @FXML

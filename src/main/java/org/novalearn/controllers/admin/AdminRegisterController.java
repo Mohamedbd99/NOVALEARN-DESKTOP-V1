@@ -29,7 +29,7 @@ public class AdminRegisterController {
     @FXML
     public void initialize() {
         genreComboBox.getItems().addAll("Homme", "Femme");
-        roleComboBox.getItems().addAll("ROLE_ADMIN", "ROLE_ENSEIGNANT", "ROLE_MEDECIN ", "ROLE_ELEVE" , "ROLE_PARENT");
+        roleComboBox.getItems().addAll("ROLE_ADMIN", "ROLE_ENSEIGNANT", "ROLE_MEDECIN", "ROLE_ELEVE" , "ROLE_PARENT");
 
         // Afficher/masquer le champ spécialité en fonction du rôle
         roleComboBox.setOnAction(e -> {
@@ -52,7 +52,9 @@ public class AdminRegisterController {
                 user.setGenre(genreComboBox.getValue());
                 user.setNumTel(Long.parseLong(numTelField.getText()));
                 user.setRole(roleComboBox.getValue());
-                if (!roleComboBox.getValue().equals("admin")) {
+                user.setIsActive(true);
+
+                if (!roleComboBox.getValue().equals("ROLE_ADMIN")) {
                     user.setSpecialite(specialiteField.getText());
                 }
 

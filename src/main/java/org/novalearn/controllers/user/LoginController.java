@@ -74,7 +74,7 @@ public class LoginController {
                         prefs.put("rememberedPassword", password); // Consider encryption
                     }
 
-                    if ("admin".equalsIgnoreCase(user.getRole())) {
+                    if ("ROLE_ADMIN".equalsIgnoreCase(user.getRole())) {
                         System.out.println("Redirecting to Admin Dashboard");
                         MainApp.showAdminDashboard();
                     } else {

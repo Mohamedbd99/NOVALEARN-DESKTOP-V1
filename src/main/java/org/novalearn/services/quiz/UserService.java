@@ -52,8 +52,8 @@ public class UserService {
         // Générer un code de vérification
         String verificationCode = generateVerificationCode();
 
-        String query = "INSERT INTO user (email, password, nom, prenom, age, genre, num_tel, role, specialite, isVerified, verification_code) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO user (email, password, nom, prenom, age, genre, num_tel, role, specialite, isVerified, verification_code,is_active) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,true)";
         PreparedStatement ps = cnx.prepareStatement(query);
         ps.setString(1, user.getEmail());
         ps.setString(2, user.getPassword());

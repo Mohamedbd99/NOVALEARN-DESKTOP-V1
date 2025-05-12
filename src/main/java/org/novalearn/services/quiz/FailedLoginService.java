@@ -7,7 +7,7 @@ import java.sql.*;
 public class FailedLoginService {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/novalearn";
     private static final String USER = "root";
-    private static final String PASS = "";
+    private static final String PASS = "root";
 
     private static final int MAX_FAILED_ATTEMPTS = 2;
     private static final int LOCK_TIME = 1 * 60 * 1000; // 1 minute en millisecondes

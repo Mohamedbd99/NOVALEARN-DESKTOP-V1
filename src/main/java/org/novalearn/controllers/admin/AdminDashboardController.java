@@ -45,7 +45,7 @@ public class AdminDashboardController {
 
     @FXML
     public void initialize() {
-        roleFilterComboBox.getItems().addAll("Tous", "ROLE_ELEVE", "ROLE_ENSEIGNANT", "ROLE_ADMIN", "ROLE_MEDECIN ", "ROLE_PARENT");
+        roleFilterComboBox.getItems().addAll("Tous", "ROLE_ELEVE", "ROLE_ENSEIGNANT", "ROLE_ADMIN", "ROLE_MEDECIN", "ROLE_PARENT");
         roleFilterComboBox.getSelectionModel().selectFirst();
 
         usersListView.setCellFactory(lv -> new ListCell<User>() {
@@ -214,7 +214,7 @@ public class AdminDashboardController {
         ComboBox<String> genreComboBox = new ComboBox<>(FXCollections.observableArrayList("Homme", "Femme", "Autre"));
         genreComboBox.setValue(user.getGenre());
         TextField numTelField = new TextField(String.valueOf(user.getNumTel()));
-        ComboBox<String> roleComboBox = new ComboBox<>(FXCollections.observableArrayList("ROLE_ELEVE", "ROLE_ENSEIGNANT", "ROLE_ADMIN", "ROLE_MEDECIN ", "ROLE_PARENT"));
+        ComboBox<String> roleComboBox = new ComboBox<>(FXCollections.observableArrayList("ROLE_ELEVE", "ROLE_ENSEIGNANT", "ROLE_ADMIN", "ROLE_MEDECIN", "ROLE_PARENT"));
         roleComboBox.setValue(user.getRole());
         TextField specialiteField = new TextField(user.getSpecialite());
 
