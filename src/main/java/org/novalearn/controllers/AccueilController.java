@@ -125,7 +125,7 @@ public class AccueilController {
 
     @FXML
     private void showReclamation() {
-        loadModule0("reclamation-views/reclamation.fxml");
+        loadModule0("reclamation-views/ReclamationFront.fxml");
     }
     @FXML
     private void showMessagerie() {
@@ -170,7 +170,7 @@ public class AccueilController {
         if (user != null) {
             System.out.println("🎯 AccueilController received user: "
                     + user.getEmail() + " (ID: " + user.getId() + ")");
-            if (user != null && !"admin".equalsIgnoreCase(user.getRole())) {
+            if (user != null && !"ROLE_ADMIN".equalsIgnoreCase(user.getRole())) {
 
                 if (btnReclamationAdmin != null) {
                     btnReclamationAdmin.setVisible(false);
