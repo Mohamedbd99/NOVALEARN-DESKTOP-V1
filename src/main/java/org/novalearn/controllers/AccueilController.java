@@ -183,7 +183,7 @@ public class AccueilController {
             }
 
 
-            if (user != null && !"Enseignant".equalsIgnoreCase(user.getRole())) {
+            if (user != null && !"ROLE_ENSEIGNANT".equalsIgnoreCase(user.getRole())) {
                 if (btnCoursAdmin != null) {
                     btnCoursAdmin.setVisible(false);
                     btnCoursAdmin.setManaged(false);
@@ -201,7 +201,7 @@ public class AccueilController {
                     btnAIcours.setManaged(false);
                 }
             }
-            if (user != null && !"Étudiant".equalsIgnoreCase(user.getRole())) {
+            if (user != null && !"ROLE_ELEVE".equalsIgnoreCase(user.getRole())) {
                 if (btnQuiz != null) {
                     btnQuiz.setVisible(false);
                     btnQuiz.setManaged(false);
@@ -209,11 +209,8 @@ public class AccueilController {
 
             }
 
-            if (user != null && !"Médecin".equalsIgnoreCase(user.getRole())) {
-                if (btnBlogAdmin != null) {
-                    btnBlogAdmin.setVisible(false);
-                    btnBlogAdmin.setManaged(false);
-                }
+            if (user != null && !"ROLE_MEDECIN ".equalsIgnoreCase(user.getRole())) {
+
 
             }
 

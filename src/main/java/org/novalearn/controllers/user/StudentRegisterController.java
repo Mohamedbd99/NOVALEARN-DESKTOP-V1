@@ -27,7 +27,7 @@ public class StudentRegisterController {
 
     @FXML
     public void initialize() {
-        genreComboBox.getItems().addAll("Homme", "Femme", "Autre");
+        genreComboBox.getItems().addAll("Homme", "Femme");
     }
 
     @FXML
@@ -42,7 +42,7 @@ public class StudentRegisterController {
                 user.setAge(Integer.parseInt(ageField.getText()));
                 user.setGenre(genreComboBox.getValue());
                 user.setNumTel(Long.parseLong(numTelField.getText()));
-                user.setRole("Étudiant");
+                user.setRole("ROLE_ELEVE");
                 user.setSpecialite(specialiteField.getText());
 
                 String verificationCode = userService.register(user);
