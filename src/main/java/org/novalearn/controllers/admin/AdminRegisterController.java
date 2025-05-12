@@ -29,13 +29,13 @@ public class AdminRegisterController {
     @FXML
     public void initialize() {
         genreComboBox.getItems().addAll("Homme", "Femme");
-        roleComboBox.getItems().addAll("admin", "Enseignant", "Médecin", "Étudiant" , "Parent");
+        roleComboBox.getItems().addAll("ROLE_ADMIN", "ROLE_ENSEIGNANT", "ROLE_MEDECIN ", "ROLE_ELEVE" , "ROLE_PARENT");
 
         // Afficher/masquer le champ spécialité en fonction du rôle
         roleComboBox.setOnAction(e -> {
             String role = roleComboBox.getValue();
-            specialiteField.setVisible(role != null && !role.equals("admin"));
-            specialiteField.setManaged(role != null && !role.equals("admin"));
+            specialiteField.setVisible(role != null && !role.equals("ROLE_ADMIN"));
+            specialiteField.setManaged(role != null && !role.equals("ROLE_ADMIN"));
         });
     }
 
@@ -88,7 +88,7 @@ public class AdminRegisterController {
                 emailField.getText().isEmpty() || numTelField.getText().isEmpty() ||
                 ageField.getText().isEmpty() || genreComboBox.getValue() == null ||
                 roleComboBox.getValue() == null ||
-                (!roleComboBox.getValue().equals("admin") && specialiteField.getText().isEmpty()) ||
+                (!roleComboBox.getValue().equals("ROLE_ADMIN") && specialiteField.getText().isEmpty()) ||
                 passwordField.getText().isEmpty() || confirmPasswordField.getText().isEmpty()) {
             showAlert("Erreur", "Veuillez remplir tous les champs", Alert.AlertType.ERROR);
             return false;

@@ -108,7 +108,7 @@ public class ParentRegisterController {
                 user.setAge(Integer.parseInt(ageField.getText()));
                 user.setGenre(genreComboBox.getValue());
                 user.setNumTel(Long.parseLong(numTelField.getText()));
-                user.setRole("Parent");
+                user.setRole("ROLE_PARENT");
                 user.setSpecialite(specialiteField.getText());
 
                 String verificationCode = userService.register(user);

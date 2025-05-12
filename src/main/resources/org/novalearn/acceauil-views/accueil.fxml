@@ -17,22 +17,79 @@
     <!-- Barre latérale cachée -->
     <left>
         <VBox fx:id="sideMenu"
-              style="-fx-background-color: #4B0082; -fx-padding: 10;"
+              style="-fx-background-color: #4B0082; -fx-padding: 10; -fx-spacing: 10;"
               prefWidth="200"
               visible="false"
               translateX="-200">
-            <Button text="Accueil" onAction="#showAccueilBody" style="-fx-text-fill: white;"/>
-            <Button text="Réclamation" onAction="#showReclamation" style="-fx-text-fill: white;"/>
-            <Button fx:id="btnQuiz" text="Quizzes" onAction="#showQuizzes" style="-fx-text-fill: white;"/>
-            <Button fx:id="btnCoursAdmin" text="Cours Admin" onAction="#showCoursAdmin" style="-fx-text-fill: white;"/>
-            <Button fx:id="btnExerciceAdmin" text="Exercice Admin" onAction="#showCoursExerciceAdmin" style="-fx-text-fill: white;"/>
-            <Button fx:id="btnReclamationAdmin" text="Réclamations Admin" onAction="#showAReclamation" style="-fx-text-fill: white;"/>
-            <Button fx:id="btnAIcours" text="AI Cours" onAction="#SohwAIcours" style="-fx-text-fill: white;"/>
-            <Button fx:id="btnBlogAdmin" text="Blogs Admin" onAction="#SohwBlogAdmin" style="-fx-text-fill: white;"/>
-            <Button text="Blogs Front" onAction="#SohwBlogFront" style="-fx-text-fill: white;"/>
-            <Button text="Cours / Exercice" onAction="#showCoursExercice" style="-fx-text-fill: white;"/>
-            <Button text="Messagerie" onAction="#showMessagerie" style="-fx-text-fill: white;"/>
+
+            <Button text="Accueil" onAction="#showAccueilBody"
+                    style="-fx-background-color: #6a11cb; -fx-text-fill: white;
+                   -fx-font-size: 14px; -fx-font-weight: bold;
+                   -fx-background-radius: 10; -fx-padding: 10 20;
+                   -fx-pref-width: 180; -fx-pref-height: 40;"/>
+
+            <Button text="Réclamation" onAction="#showReclamation"
+                    style="-fx-background-color: #6a11cb; -fx-text-fill: white;
+                   -fx-font-size: 14px; -fx-font-weight: bold;
+                   -fx-background-radius: 10; -fx-padding: 10 20;
+                   -fx-pref-width: 180; -fx-pref-height: 40;"/>
+
+            <Button fx:id="btnQuiz" text="Quizzes" onAction="#showQuizzes"
+                    style="-fx-background-color: #6a11cb; -fx-text-fill: white;
+                   -fx-font-size: 14px; -fx-font-weight: bold;
+                   -fx-background-radius: 10; -fx-padding: 10 20;
+                   -fx-pref-width: 180; -fx-pref-height: 40;"/>
+
+            <Button fx:id="btnCoursAdmin" text="Cours Admin" onAction="#showCoursAdmin"
+                    style="-fx-background-color: #6a11cb; -fx-text-fill: white;
+                   -fx-font-size: 14px; -fx-font-weight: bold;
+                   -fx-background-radius: 10; -fx-padding: 10 20;
+                   -fx-pref-width: 180; -fx-pref-height: 40;"/>
+
+            <Button fx:id="btnExerciceAdmin" text="Exercice Admin" onAction="#showCoursExerciceAdmin"
+                    style="-fx-background-color: #6a11cb; -fx-text-fill: white;
+                   -fx-font-size: 14px; -fx-font-weight: bold;
+                   -fx-background-radius: 10; -fx-padding: 10 20;
+                   -fx-pref-width: 180; -fx-pref-height: 40;"/>
+
+            <Button fx:id="btnReclamationAdmin" text="Réclamations Admin" onAction="#showAReclamation"
+                    style="-fx-background-color: #6a11cb; -fx-text-fill: white;
+                   -fx-font-size: 14px; -fx-font-weight: bold;
+                   -fx-background-radius: 10; -fx-padding: 10 20;
+                   -fx-pref-width: 180; -fx-pref-height: 40;"/>
+
+            <Button fx:id="btnAIcours" text="AI Cours" onAction="#SohwAIcours"
+                    style="-fx-background-color: #6a11cb; -fx-text-fill: white;
+                   -fx-font-size: 14px; -fx-font-weight: bold;
+                   -fx-background-radius: 10; -fx-padding: 10 20;
+                   -fx-pref-width: 180; -fx-pref-height: 40;"/>
+
+            <Button fx:id="btnBlogAdmin" text="Blogs Admin" onAction="#SohwBlogAdmin"
+                    style="-fx-background-color: #6a11cb; -fx-text-fill: white;
+                   -fx-font-size: 14px; -fx-font-weight: bold;
+                   -fx-background-radius: 10; -fx-padding: 10 20;
+                   -fx-pref-width: 180; -fx-pref-height: 40;"/>
+
+            <Button text="Blogs Front" onAction="#SohwBlogFront"
+                    style="-fx-background-color: #6a11cb; -fx-text-fill: white;
+                   -fx-font-size: 14px; -fx-font-weight: bold;
+                   -fx-background-radius: 10; -fx-padding: 10 20;
+                   -fx-pref-width: 180; -fx-pref-height: 40;"/>
+
+            <Button text="Cours / Exercice" onAction="#showCoursExercice"
+                    style="-fx-background-color: #6a11cb; -fx-text-fill: white;
+                   -fx-font-size: 14px; -fx-font-weight: bold;
+                   -fx-background-radius: 10; -fx-padding: 10 20;
+                   -fx-pref-width: 180; -fx-pref-height: 40;"/>
+
+            <Button text="Messagerie" onAction="#showMessagerie"
+                    style="-fx-background-color: #6a11cb; -fx-text-fill: white;
+                   -fx-font-size: 14px; -fx-font-weight: bold;
+                   -fx-background-radius: 10; -fx-padding: 10 20;
+                   -fx-pref-width: 180; -fx-pref-height: 40;"/>
         </VBox>
+
+
     </left>
 
     <!-- Barre supérieure -->

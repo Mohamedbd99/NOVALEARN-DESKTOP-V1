@@ -31,7 +31,7 @@ public class RegisterController {
     public void initialize() {
         // Initialiser les ComboBox
         genreComboBox.getItems().addAll("Homme", "Femme", "Autre");
-        roleComboBox.getItems().addAll("Étudiant", "Enseignant", "Admin");
+        roleComboBox.getItems().addAll("ROLE_ELEVE", "ROLE_ENSEIGNANT", "ROLE_MEDECIN ","ROLE_ADMIN");
     }
 
     @FXML
